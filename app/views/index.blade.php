@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Circovolador</title>
+	<title>AMB Multimedia - Streaming</title>
 	<style>
-		@import url(//fonts.googleapis.com/css?family=Lato:700);
+		@import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
+		@import url(http://fonts.googleapis.com/css?family=Carrois+Gothic);
 
 		body {
 			margin:0;
@@ -14,34 +15,35 @@
 		}
 
 		.welcome {
-			width: 300px;
-			height: 200px;
+			width: 800px;
+			height: 80px;
 			position: absolute;
 			left: 50%;
-			top: 40%;
-			margin-left: -150px;
-			margin-top: -100px;
-		}
-
-		a, a:visited {
-			text-decoration:none;
-		}
-
-		img{
-			max-width: 100%;
-			height: auto;
+			top: 50%;
+			margin-left: -400px;
+			margin-top: -40px;
 		}
 
 		h1 {
-			font-size: 32px;
+			font-size: 36px;
+			font-weight: 400;
 			margin: 16px 0 0 0;
+		}
+		h1 .dark {
+			color: #444;
+			font-weight: 300;
+		}
+		h1 .gray {
+			color: #8E8880;
+		}
+		h1 .yellow {
+			color: #F9AF48;
 		}
 	</style>
 </head>
 <body>
 	<div class="welcome">
-		<a href="http://ambmultimedia.com.mx" title="AMB Multimedia"><img src="{{URL::asset('amb.png')}}" alt="AMB Multimedia"></a>
-		<h1>AMB Multimedia</h1>
+		<h1><span class="yellow">AMB</span> <span class="gray">Multimedia</span> <span class="dark">Streaming</span></h1>
 	</div>
 </body>
 </html>

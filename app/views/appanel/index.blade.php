@@ -1,7 +1,11 @@
 @extends('appanel/template')
 
 @section('content')
-<main>
-	<h1>Index</h1>
-</main>
+	<!-- Header -->
+	<nav id="toolbar">
+		<a href="{{route('logout')}}" class="btn">Salir</a>
+	</nav>
+
+	<div class="container">
+	</div>
 @stop

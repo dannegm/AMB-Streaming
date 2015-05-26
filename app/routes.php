@@ -11,22 +11,12 @@
 |
 */
 
-Route::get('/', function()
-{
+Route::get('/', function() {
 	return View::make('index');
 });
 Route::get('preview', function() {
 	return View::make('preview/index');
 });
-
-Route::get('api/v2/eventos.json', 'IndexController@eventos');
-
-Route::get('api/v2/stream.json', 'IndexController@stream');
-
-Route::get('api/v2/talleres.json', 'IndexController@talleres');
-
-Route::get('api/v2/song.json', 'IndexController@song_json');
-Route::get('api/v2/song.txt', 'IndexController@song_txt');
 
 /*
 	Panel de administración
@@ -85,5 +75,17 @@ Route::group(array('before' => 'auth', 'prefix' => 'appanel'), function(){
 
 	Route::post('upload/evento/{id}', array('as'=>'upload.evento', 'uses'=>'ImageController@uploadEvento'));
 	Route::post('upload/taller/{id}', array('as'=>'upload.taller', 'uses'=>'ImageController@uploadTaller'));
+
+	/**
+	A partir de aquí edito yo
+	*/
+
+	Route::get('channels', array('as' => 'appanel.channels.index', 'uses' => 'ChannelsController@index'));
+	Route::get('channels/create', array('as' => 'appanel.channels.create', 'uses' => 'ChannelsController@create'));
+	Route::post('channels/store', array('as' => 'appanel.channels.store', 'uses' => 'ChannelsController@store'));
+
+	Route::get('events', array('as' => 'appanel.events.index', 'uses' => 'EventsController@index'));
+	Route::get('events/create', array('as' => 'appanel.events.create', 'uses' => 'EventsController@create'));
+	Route::post('events/store', array('as' => 'appanel.events.store', 'uses' => 'EventsController@store'));
 
 });

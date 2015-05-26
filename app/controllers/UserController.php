@@ -12,6 +12,7 @@ class UserController extends \BaseController {
 		$users = User::orderBy('name', 'asc')->get();
 		$data = array(
 			'title' => 'Usuarios',
+			'subtitle' => "Control de usuarios",
 			'users' => $users,
 		);
 		return View::make('appanel/users/index', $data);
@@ -26,7 +27,8 @@ class UserController extends \BaseController {
 	public function create()
 	{
 		$data = array(
-			'title' => 'Nuevo Usuario'
+			'title' => 'Usuarios',
+			'subtitle' => "Nuevo usuario"
 		);
 		return View::make('appanel/users/create', $data);
 	}
@@ -100,7 +102,8 @@ class UserController extends \BaseController {
 	{
 		$user = User::find($id);
 		$data = array(
-			'title' => 'Editar Usuario',
+			'title' => 'Usuarios',
+			'subtitle' => "Editar usuario <strong>@" . $user->username . "</strong>",
 			'user' => $user,
 		);
 		return View::make('appanel/users/edit', $data);

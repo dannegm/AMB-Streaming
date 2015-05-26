@@ -8,6 +8,7 @@ class AppController extends Controller {
 		} else {
 			$data = array (
 				'title' => 'Login',
+				'subtitle' => 'Inicia sesión',
 			);
 			return View::make('appanel/login', $data);
 		}
@@ -41,6 +42,7 @@ class AppController extends Controller {
 		if (Auth::check()) {
 			$data = array(
 				'title' => 'Inicio',
+				'subtitle' => "Bienvenido <stron>" . Auth::user()->name . "</strong>."
 			);
 			return View::make('appanel/index', $data);
 		} else {

@@ -1,18 +1,20 @@
 @extends('appanel/template')
 @section('content')
+
 	<div class="container">
+
 		<!-- Manejo de errores -->
-		@if($errors->has())
+		@if ($errors->has())
 			<?php $dis = '' ?>
 			@foreach ($errors->all() as $error)
-				<?php $dis .= $error . '</br>' ?>
+				<?php $dis .= $error.'</br>' ?>
 			@endforeach
 			<script>
 			$(window).load(function(){
 				swal({
 					title: 'Verfica lo siguiente',
 					html: '{{$dis}}',
-					type:'error'
+					type:'error',
 				});
 			});
 			</script>
@@ -20,7 +22,7 @@
 		<!-- Manejo de errores -->
 
 		<!-- Formulario -->
-		{{Form::open(array('url' => route('appanel.user.store')))}}
+		{{Form::open(array('url' => route('appanel.channels.store')))}}
 			<div class="row">
 				<div class="input-field col s12 big">
 					<label>Nombre</label>
@@ -29,20 +31,14 @@
 			</div>
 			<div class="row">
 				<div class="input-field col s12">
-					<label>Username</label>
-					<input type="text" name="username" value="{{Input::old('username')}}">
+					<label>Descripción</label>
+					<textarea name="description" >{{Input::old('description')}}</textarea>
 				</div>
 			</div>
 			<div class="row">
 				<div class="input-field col s12">
-					<label>Email</label>
-					<input type="text" name="email" value="{{Input::old('email')}}">
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-field col s12">
-					<label>Nueva Contraseña</label>
-					<input type="password" name="password" value="">
+					<label>Canal RTMP</label>
+					<input type="text" name="rtmp" value="{{Input::old('rtmp')}}">
 				</div>
 			</div>
 			<div class="row">
