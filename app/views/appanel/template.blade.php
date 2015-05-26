@@ -29,7 +29,7 @@
 			@if(Auth::check())
 			<li class="avatar">
 				<figure>
-					<img src="{{URL::asset('/panel/img/avatarPlaceholder.png')}}" />
+					<img src="{{URL::asset('/pictures/sqm/' . Auth::user()->picture->url)}}" />
 				</figure>
 				<div class="container">
 					<h1>{{Auth::user()->name}}</h1>
@@ -38,21 +38,21 @@
 			</li>
 			@endif
 
-			<li>
+			<li{{$section=='index'?' class="active"':''}}>
 				<a href="{{route('appanel')}}" class="waves-effect waves-teal">
 					<i class="icon-home"></i>
 					<span>Inicio</span>
 				</a>
 			</li>
 
-			<li>
+			<li{{$section=='channels'?' class="active"':''}}>
 				<a href="{{route('appanel.channels.index')}}" class="waves-effect waves-teal">
 					<i class="icon-tv"></i>
 					<span>Canales</span>
 				</a>
 			</li>
 
-			<li>
+			<li{{$section=='events'?' class="active"':''}}>
 				<a href="{{route('appanel.events.index')}}" class="waves-effect waves-teal">
 					<i class="icon-event"></i>
 					<span>Eventos</span>
@@ -61,7 +61,7 @@
 
 			<li class="separator"></li>
 
-			<li>
+			<li{{$section=='users'?' class="active"':''}}>
 				<a href="{{route('appanel.user.index')}}" class="waves-effect waves-teal">
 					<i class="icon-people"></i>
 					<span>Usuarios</span>

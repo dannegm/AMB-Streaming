@@ -9,7 +9,8 @@ class ChannelsController extends \BaseController {
 		$channels = Channel::orderBy('id', 'desc')->get();
 		$data = array (
 			'title' => 'Canales',
-			'subtitle' => "Todos los canales",
+			'subtitle' => 'Todos los canales',
+			'section' => 'channels',
 			'channels' => $channels
 		);
 		return View::make('appanel/channels/index', $data);
@@ -17,7 +18,8 @@ class ChannelsController extends \BaseController {
 	public function create () {
 		$data = array(
 			'title' => 'Canales',
-			'subtitle' => "Nuevo canal"
+			'subtitle' => 'Nuevo canal',
+			'section' => 'channels'
 		);
 		return View::make('appanel/channels/create', $data);
 	}

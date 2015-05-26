@@ -9,7 +9,8 @@ class EventsController extends \BaseController {
 		$events = Evento::orderBy('id', 'desc')->get();
 		$data = array (
 			'title' => 'Eventos',
-			'subtitle' => "Todos los eventos",
+			'subtitle' => 'Todos los eventos',
+			'section' => 'events',
 			'events' => $events
 		);
 		return View::make('appanel/events/index', $data);
@@ -19,6 +20,7 @@ class EventsController extends \BaseController {
 		$data = array(
 			'title' => 'Eventos',
 			'subtitle' => "Nuevo evento",
+			'section' => 'events',
 			'channels' => $channels
 		);
 		return View::make('appanel/events/create', $data);

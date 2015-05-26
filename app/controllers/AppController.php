@@ -9,6 +9,7 @@ class AppController extends Controller {
 			$data = array (
 				'title' => 'Login',
 				'subtitle' => 'Inicia sesión',
+				'section' => 'login',
 			);
 			return View::make('appanel/login', $data);
 		}
@@ -25,7 +26,6 @@ class AppController extends Controller {
 		));
 		if ($attempt) {
 			return Redirect::to('appanel/index');
-			// Log: Auth::id();
 		} else {
 			return Redirect::route('appanel')
 				->withErrors(array('La contraseña o el password son incorrectos'))
@@ -40,9 +40,10 @@ class AppController extends Controller {
 
 	public function index () {
 		if (Auth::check()) {
-			$data = array(
+			$data = array (
 				'title' => 'Inicio',
-				'subtitle' => "Bienvenido <stron>" . Auth::user()->name . "</strong>."
+				'subtitle' => 'Bienvenido <strong>' . Auth::user()->name . '</strong>.',
+				'section' => 'index'
 			);
 			return View::make('appanel/index', $data);
 		} else {

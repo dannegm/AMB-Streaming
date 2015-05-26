@@ -2,45 +2,27 @@
 
 class UserController extends \BaseController {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+	public function index() {
 		$users = User::orderBy('name', 'asc')->get();
 		$data = array(
 			'title' => 'Usuarios',
-			'subtitle' => "Control de usuarios",
-			'users' => $users,
+			'subtitle' => 'Control de usuarios',
+			'section' => 'users',
+			'users' => $users
 		);
 		return View::make('appanel/users/index', $data);
 	}
 
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
+	public function create() {
 		$data = array(
 			'title' => 'Usuarios',
-			'subtitle' => "Nuevo usuario"
+			'subtitle' => 'Nuevo usuario',
+			'section' => 'users'
 		);
 		return View::make('appanel/users/create', $data);
 	}
 
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
+	public function store() {
 		//validation videos
 		$rules = array(
 			'name' => 'required',
@@ -79,52 +61,24 @@ class UserController extends \BaseController {
 		}
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+	public function edit($id) {
 		$user = User::find($id);
 		$data = array(
 			'title' => 'Usuarios',
 			'subtitle' => "Editar usuario <strong>@" . $user->username . "</strong>",
-			'user' => $user,
+			'section' => 'users',
+			'user' => $user
 		);
 		return View::make('appanel/users/edit', $data);
 	}
 
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
+	public function update($id) {
 		//validation videos
 		$rules = array(
 			'name' => 'required',
 			'username' => 'required',
 			'email' => 'required|email',
 		);
-
 		$messages = array(
 			'name.required' => 'El nombre es necesario',
 			'username.required' => 'Es necesrio colocar un username',
@@ -145,31 +99,20 @@ class UserController extends \BaseController {
 			$user->name = Input::get('name');
 			$user->username = Input::get('username');
 			$user->email = Input::get('email');
-			if(Input::has('password')){
+			if (Input::has('password')) {
 				$user->password = Hash::make(md5(Input::get('password')));
 			}
 			$user->save();
-
 			return Redirect::to(route('appanel.user.index'));
 		}
 	}
 
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
+	public function destroy($id) {
 		$user = User::find($id);
-		if($user->rol != 1){
+		if ($user->rol != 1) {
 			$user->delete();
-		}else{
-			
+		} else {
 		}
-
 		return Redirect::route('appanel.user.index');
 	}
 
