@@ -17,28 +17,19 @@ options = {
 }
 */
 
-/* Usando drag&drop */
 var $$ = function (e) { return document.getElementById(e); };
 
 var upload = function (options) {
     options.start();
 
-    // Inicializamos variables
-    var imgData = false, reader, picture, file = options.files[0], canUpload = false;;
-    // Comprobamos que el archivo recibido sea una imagen
+    var imgData = false, reader, picture, file = options.files[0], canUpload = false;
     if ( !!file.type.match(/image.*/) ) {
-        // #mega * #kilo * #byte
         if (!(file.size > options.maxSize) ) {
-            // Creamos un formulario
             if (window.FormData) { imgData = new FormData(); }
             if (window.FileReader) {
-                // Creamos un archivo a partir de la lectura del input
                 reader = new FileReader();
-                // Cuando el archivo esté cargado ...
                 reader.onloadend = function (e) {
-                    // Obtenemos su resultado y lo almacenamos
                     picture = e.target.result;
-
                     var tmpimg = document.createElement('img');
                     tmpimg.src = picture;
 
@@ -51,43 +42,33 @@ var upload = function (options) {
                     }
                     options.process(picture);
                 };
-                // Leemos el archivo
                 reader.readAsDataURL(file);
             }
-            // Anexamos el archivo al formulario con name="file"
             if (imgData) {
                 imgData.append(options.filename, file);
                 imgData.append('group', options.group);
             }
         } else {
             options.error({
-                code: 1,
+                code: 2,
                 message: "La imagen es muy pesada"
             });
         }
     } else {
         options.error({
-            code: 1,
+            code: 3,
             message: "Debes elegir una imagen"
         });
     }
 
-    // Si alrchivo está listo
     if (imgData) {
-        // Creamos petició AJAX
         $.ajax({
-            // Ruta a enviar el formulario
             url: options.url,
-            // Método de la petición
             type: 'POST',
-            // Datos del formulario
             data: imgData,
-            // Otros ajustes
             processData: false,
             contentType: false,
-            // Evento que regresa el porcentaje de subida
             xhr: options.xhr,
-            // Evento cuando se terminó de subir la imagen
             success: options.success
         });
     }
@@ -123,6 +104,7 @@ options_logo = {
         $('#droppeable_logo').css({
             'background-image': "url('" + response.pic + "')"
         });
+        $('#file_logo').val("");
     }
 }
 options_cover = {
@@ -158,6 +140,28 @@ options_cover = {
     }
 }
 
+var ondragenter = function (e) {
+    e.preventDefault();
+    var $dr = $(this);
+    $dr.addClass('dragover');
+},
+ondragover = function(e) {
+    e.preventDefault();
+    var $dr = $(this);
+    if(!$dr.hasClass("dragover"))
+        $dr.addClass("dragover");
+},
+ondragleave = function(e) {
+    e.preventDefault();
+    var $dr = $(this);
+    $dr.removeClass('dragover');
+},
+ondrop = function (e) {
+    e.preventDefault();
+    var $dr = $(this);
+    $dr.removeClass('dragover');
+};
+
 $(function () {
     // Logo
     var input_logo = $('#file_logo');
@@ -166,35 +170,17 @@ $(function () {
         options_logo.files = this.files;
         upload( options_logo );
     });
-    var btnOpenFile_logo = $('#droppeable_logo .openFile');
-    btnOpenFile_logo.on('click', function (e) {
+    $('#droppeable_logo .openFile').on('click', function (e) {
         e.preventDefault();
         input_logo.trigger('click');
     });
 
     var holder_logo = $$('droppeable_logo');
-
-    holder_logo.ondragenter = function (e) {
-        e.preventDefault();
-        var $dr = $(this);
-        $dr.addClass('dragover');
-    };
-    holder_logo.ondragover = function(e) {
-        e.preventDefault();
-        var $dr = $(this);
-        if(!$dr.hasClass("dragover"))
-            $dr.addClass("dragover");
-    };
-    holder_logo.ondragleave = function(e) {
-        e.preventDefault();
-        var $dr = $(this);
-        $dr.removeClass('dragover');
-    };
+    holder_logo.ondragenter = ondragenter;
+    holder_logo.ondragover = ondragover;
+    holder_logo.ondragleave = ondragleave;
     holder_logo.ondrop = function(e) {
-        e.preventDefault();
-        var $dr = $(this);
-        $dr.removeClass('dragover');
-
+        ondrop(e);
         options_logo.files = e.dataTransfer.files;
         upload( options_logo );
     };
@@ -206,35 +192,17 @@ $(function () {
         options_cover.files = this.files;
         upload( options_cover );
     });
-    var btnOpenFile_cover = $('#droppeable_cover .openFile');
-    btnOpenFile_cover.on('click', function (e) {
+    $('#droppeable_cover .openFile').on('click', function (e) {
         e.preventDefault();
         input_cover.trigger('click');
     });
 
     var holder_cover = $$('droppeable_cover');
-
-    holder_cover.ondragenter = function (e) {
-        e.preventDefault();
-        var $dr = $(this);
-        $dr.addClass('dragover');
-    };
-    holder_cover.ondragover = function(e) {
-        e.preventDefault();
-        var $dr = $(this);
-        if(!$dr.hasClass("dragover"))
-            $dr.addClass("dragover");
-    };
-    holder_cover.ondragleave = function(e) {
-        e.preventDefault();
-        var $dr = $(this);
-        $dr.removeClass('dragover');
-    };
+    holder_cover.ondragenter = ondragenter;
+    holder_cover.ondragover = ondragover;
+    holder_cover.ondragleave = ondragleave;
     holder_cover.ondrop = function(e) {
-        e.preventDefault();
-        var $dr = $(this);
-        $dr.removeClass('dragover');
-
+        ondrop(e);
         options_cover.files = e.dataTransfer.files;
         upload( options_cover );
     };
