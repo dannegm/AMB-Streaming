@@ -11,17 +11,17 @@
 |
 */
 
-Route::get('/', function() {
-	return View::make('index');
-});
-Route::get('preview', function() {
-	return View::make('preview/index');
-});
+// Player
+Route::get('channel/{uid}/player', array('uses' => 'PlayerController@channel'));
+Route::get('event/{uid}/player', array('uses' => 'PlayerController@event'));
+Route::get('api/widget.js', array('uses' => 'PlayerController@widget'));
 
-/*
-	Panel de administración
-*/
-	Route::post('picture/upload', array('uses'=>'ImageController@upload'));
+// Home
+Route::get('/', array('as' => 'home.index', 'uses' => 'IndexController@index'));
+Route::get('events', array('as' => 'home.events', 'uses' => 'IndexController@events'));
+
+Route::get('channel/{uid}/{void}', array('as' => 'home.channel', 'uses' => 'IndexController@channel'));
+Route::get('event/{uid}/{void}', array('as' => 'home.event', 'uses' => 'IndexController@event'));
 
 // App
 Route::get('appanel', array('as' => 'appanel', 'uses'=>'AppController@login'));
@@ -41,17 +41,25 @@ Route::group(array('before' => 'auth', 'prefix' => 'appanel'), function() {
 	Route::get('user/{id}/destroy', array('as' => 'appanel.user.destroy', 'uses' => 'UserController@destroy'));
 
 	// Pictures
-	Route::post('picture/upload', array('uses'=>'ImageController@upload'));
+	Route::post('picture/upload', array('as' => 'appanel.picture.upload', 'uses'=>'ImageController@upload'));
 	Route::get('pictures/{group}.json', array('uses'=>'ImageController@list_json'));
 
 	// Channels
 	Route::get('channels', array('as' => 'appanel.channels.index', 'uses' => 'ChannelsController@index'));
+	Route::get('channels/{uid}/view', array('as' => 'appanel.channels.view', 'uses' => 'ChannelsController@view'));
 	Route::get('channels/create', array('as' => 'appanel.channels.create', 'uses' => 'ChannelsController@create'));
 	Route::post('channels/store', array('as' => 'appanel.channels.store', 'uses' => 'ChannelsController@store'));
+	Route::get('channels/{uid}/edit', array('as' => 'appanel.channels.edit', 'uses' => 'ChannelsController@edit'));
+	Route::put('channels/{uid}/update', array('as' => 'appanel.channels.update', 'uses' => 'ChannelsController@update'));
+	Route::get('channels/{uid}/delete', array('as' => 'appanel.channels.delete', 'uses' => 'ChannelsController@delete'));
 
 	// Events
 	Route::get('events', array('as' => 'appanel.events.index', 'uses' => 'EventsController@index'));
+	Route::get('events/{uid}/view', array('as' => 'appanel.events.view', 'uses' => 'EventsController@view'));
 	Route::get('events/create', array('as' => 'appanel.events.create', 'uses' => 'EventsController@create'));
 	Route::post('events/store', array('as' => 'appanel.events.store', 'uses' => 'EventsController@store'));
+	Route::get('events/{uid}/edit', array('as' => 'appanel.events.edit', 'uses' => 'EventsController@edit'));
+	Route::put('events/{uid}/update', array('as' => 'appanel.events.update', 'uses' => 'EventsController@update'));
+	Route::get('events/{uid}/delete', array('as' => 'appanel.events.delete', 'uses' => 'EventsController@delete'));
 
 });

@@ -16,54 +16,190 @@ class EventsController extends \BaseController {
 		return View::make('appanel/events/index', $data);
 	}
 	public function create () {
-		$channels = Channel::orderBy('id', 'desc')->get();
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->create) {
+			$channels = Channel::orderBy('id', 'desc')->get();
+			$data = array(
+				'title' => 'Eventos',
+				'subtitle' => "Nuevo evento",
+				'section' => 'events',
+				'channels' => $channels
+			);
+			return View::make('appanel/events/create', $data);
+		} else {
+			return Redirect::to(route('appanel.events.index'));
+		}
+	}
+
+	public function delete ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->delete) {
+			$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+			$evento[0]->delete();
+		}
+		return Redirect::to(route('appanel.events.index'));
+	}
+
+	public function view ($uid) {
+		$evento = Evento::where('uid', '=', $uid)->take(1)->get();
 		$data = array(
 			'title' => 'Eventos',
-			'subtitle' => "Nuevo evento",
+			'subtitle' => "Información",
 			'section' => 'events',
-			'channels' => $channels
+			'event' => $evento[0]
 		);
-		return View::make('appanel/events/create', $data);
+		return View::make('appanel/events/view', $data);
 	}
 
 	// Store
-	public function store() {
-		//validation videos
-		$rules = array(
-			'name' => 'required',
-			'description' => 'required',
-			'channel' => 'required'
-		);
+	public function store () {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->create) {
+			//validation videos
+			$rules = array(
+				'title' => 'required',
+				'description' => 'required',
+				'channel' => 'required',
+				'started_at' => 'required',
+				'ended_at' => 'required'
+			);
 
-		$messages = array(
-			'name.required' => 'El nombre es necesario',
-			'description.required' => 'Es necesrio colocar descripción',
-			'channel.required' => 'Es necesrio asignarle un canal'
-		);
+			$messages = array(
+				'title.required' => 'El nombre es necesario',
+				'description.required' => 'Es necesrio colocar descripción',
+				'channel.required' => 'Es necesrio asignarle un canal',
+				'started_at.required' => 'Debes seleccionar fecha de inicio',
+				'ended_at.required' => 'Debes seleccionar fecha de cierre'
+			);
 
-		//check validation
-		$validator = Validator::make(Input::all(), $rules, $messages);
+			//check validation
+			$validator = Validator::make(Input::all(), $rules, $messages);
 
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			return Redirect::route('appanel.events.create')
-				->withErrors($validator)
-				->withInput();
+			if ($validator->fails()) {
+				$messages = $validator->messages();
+				return Redirect::route('appanel.events.create')
+					->withErrors($validator)
+					->withInput();
+			} else {
+				$event = new Evento;
+
+				$event->uid =  uniqid();
+				$event->timeid = time();
+
+				$event->channel_uid = Input::get('channel');
+
+				$event->title = Input::get('title');
+				$event->subtitle = Input::get('subtitle');
+				$event->description = Input::get('description');
+
+				$event->locale = Input::get('locale');
+
+				$event->started_at = Input::get('started_at');
+				$event->ended_at = Input::get('ended_at');
+
+				$pic_logo = Input::get('pic_logo');
+				$pic_logo = !empty($pic_logo) ? $pic_logo : 'avatarTV';
+				$event->logo_uid = $pic_logo;
+
+				$pic_cover = Input::get('pic_cover');
+				$pic_cover = !empty($pic_cover) ? $pic_cover : 'cover';
+				$event->cover_uid = $pic_cover;
+
+				$pic_back = Input::get('pic_back');
+				$pic_back = !empty($pic_back) ? $pic_back : 'background';
+				$event->background_uid = $pic_back;
+
+				$event->save();
+				return Redirect::to(route('appanel.events.index'));
+			}
 		} else {
-			$event = new Evento;
+			return Redirect::to(route('appanel.events.index'));
+		}
+	}
 
-			$event->uid =  uniqid();
-			$event->timeid = time();
+	public function edit ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->edit) {
+			$channels = Channel::orderBy('id', 'desc')->get();
+			$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+			$data = array(
+				'title' => 'Eventos',
+				'subtitle' => "Editar evento <strong>" . $evento[0]->title . "</strong>",
+				'section' => 'events',
+				'channels' => $channels,
+				'event' => $evento[0]
+			);
+			return View::make('appanel/events/edit', $data);
+		} else {
+			return Redirect::to(route('appanel.events.index'));
+		}
+	}
 
-			$event->channel_uid = Input::get('channel');
+	public function update ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->edit) {
+			//validation videos
+			$rules = array(
+				'title' => 'required',
+				'description' => 'required',
+				'channel' => 'required',
+				'started_at' => 'required',
+				'ended_at' => 'required'
+			);
 
-			$event->title = Input::get('name');
-			$event->subtitle = Input::get('description');
+			$messages = array(
+				'title.required' => 'El nombre es necesario',
+				'description.required' => 'Es necesrio colocar descripción',
+				'channel.required' => 'Es necesrio asignarle un canal',
+				'started_at.required' => 'Debes seleccionar fecha de inicio',
+				'ended_at.required' => 'Debes seleccionar fecha de cierre'
+			);
 
-			$event->started_at = Input::get('started_at');
-			$event->ended_at = Input::get('ended_at');
+			//check validation
+			$validator = Validator::make(Input::all(), $rules, $messages);
 
-			$event->save();
+			if ($validator->fails()) {
+				$messages = $validator->messages();
+				return Redirect::route('appanel.events.create')
+					->withErrors($validator)
+					->withInput();
+			} else {
+				$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+				$event = $evento[0];
+
+				$event->channel_uid = Input::get('channel');
+
+				$event->title = Input::get('title');
+				$event->subtitle = Input::get('subtitle');
+				$event->description = Input::get('description');
+
+				$event->locale = Input::get('locale');
+				$event->rtmp = Input::get('rtmp');
+
+				$event->started_at = Input::get('started_at');
+				$event->ended_at = Input::get('ended_at');
+
+				$pic_logo = Input::get('pic_logo');
+				$pic_logo = !empty($pic_logo) ? $pic_logo : 'avatarTV';
+				$event->logo_uid = $pic_logo;
+
+				$pic_cover = Input::get('pic_cover');
+				$pic_cover = !empty($pic_cover) ? $pic_cover : 'cover';
+				$event->cover_uid = $pic_cover;
+
+				$pic_back = Input::get('pic_back');
+				$pic_back = !empty($pic_back) ? $pic_back : 'background';
+				$event->background_uid = $pic_back;
+
+				$event->save();
+				return Redirect::to(route('appanel.events.index'));
+			}
+		} else {
 			return Redirect::to(route('appanel.events.index'));
 		}
 	}

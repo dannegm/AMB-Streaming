@@ -15,4 +15,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasOne('Picture', 'uid', 'avatar');
 	}
 
+	public function permissions () {
+		return json_decode($this->permission);
+	}
+
 }

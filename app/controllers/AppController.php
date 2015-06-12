@@ -40,10 +40,13 @@ class AppController extends Controller {
 
 	public function index () {
 		if (Auth::check()) {
+			$events = Evento::orderBy('ended_at', 'desc')->take(4)->get();
+
 			$data = array (
 				'title' => 'Inicio',
 				'subtitle' => 'Bienvenido <strong>' . Auth::user()->name . '</strong>.',
-				'section' => 'index'
+				'section' => 'index',
+				'events' => $events
 			);
 			return View::make('appanel/index', $data);
 		} else {

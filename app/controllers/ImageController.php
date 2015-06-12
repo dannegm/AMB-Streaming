@@ -35,6 +35,10 @@ class ImageController extends \BaseController {
 				$fileUrl = URL::asset('pictures/' . $filename);
 				$fileUrlMiddle = URL::asset('pictures/medium/' . $filename);
 
+				if ($group == 'UserProfile') {
+					$fileUrlMiddle = URL::asset('pictures/sqm/' . $imagen[0]->url);
+				}
+
 				// asignamos las carpetas a variables
 				$file = public_path('pictures/' . $filename);
 				$pathLarge = public_path('pictures/large/' . $filename);
@@ -92,14 +96,16 @@ class ImageController extends \BaseController {
 						'time' => time()
 					),
 					'description' => 'Se guardó la imagen',
-					'pic' => $fileUrl,
+					'pic' => $fileUrlMiddle,
 					'filelink' => $fileUrlMiddle,
 					'id' => $uid
 				);
 			} else {
 				// si la imágen ya existe obtenemos la url
-				$fileUrl = URL::asset('pictures/' . $imagen[0]->url);
 				$fileUrlMiddle = URL::asset('pictures/medium/' . $imagen[0]->url);
+				if ($group == 'UserProfile') {
+					$fileUrlMiddle = URL::asset('pictures/sqm/' . $imagen[0]->url);
+				}
 				// guardamos el status en json
 				$status = array(
 					'status' => 'repeat',
@@ -107,7 +113,7 @@ class ImageController extends \BaseController {
 						'time' => time()
 					),
 					'description' => 'La imágen ya existe',
-					'pic' => $fileUrl,
+					'pic' => $fileUrlMiddle,
 					'filelink' => $fileUrlMiddle,
 					'id' => $imagen[0]->uid
 				);

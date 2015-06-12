@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: "material-font";
-  src:url("//ambmultimedia.dnn.im/panel/fonts/material-font.eot");
-  src:url("//ambmultimedia.dnn.im/panel/fonts/material-font.eot?#iefix") format("embedded-opentype"),
-    url("//ambmultimedia.dnn.im/panel/fonts/material-font.woff") format("woff"),
-    url("//ambmultimedia.dnn.im/panel/fonts/material-font.ttf") format("truetype"),
-    url("//ambmultimedia.dnn.im/panel/fonts/material-font.svg#material-font") format("svg");
+  src:url("//video.ambmultimedia.mx/panel/fonts/material-font.eot");
+  src:url("//video.ambmultimedia.mx/panel/fonts/material-font.eot?#iefix") format("embedded-opentype"),
+    url("//video.ambmultimedia.mx/panel/fonts/material-font.woff") format("woff"),
+    url("//video.ambmultimedia.mx/panel/fonts/material-font.ttf") format("truetype"),
+    url("//video.ambmultimedia.mx/panel/fonts/material-font.svg#material-font") format("svg");
   font-weight: normal;
   font-style: normal;
 

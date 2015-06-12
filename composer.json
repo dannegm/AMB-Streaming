@@ -5,7 +5,9 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"intervention/image": "~2.1"
+		"intervention/image": "~2.1",
+		"jenssegers/agent": "~2.1",
+		"nesbot/carbon": "~1.18"
 	},
 	"autoload": {
 		"classmap": [
