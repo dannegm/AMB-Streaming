@@ -3,12 +3,14 @@
 class IndexController extends BaseController {
 	public function index () {
 
+		$marks_events = Evento::where('marked', '=', 1)->orderBy('ended_at', 'desc')->take(3)->get();
 		$last_events = Evento::orderBy('ended_at', 'desc')->take(3)->get();
 
 		$channels = Channel::where('visible', '=', 1)->orderBy('id', 'desc')->take(3)->get();
 
 		$data = array (
 			'title' => "Inicio",
+			'marks_events' => $marks_events,
 			'last_events' => $last_events,
 			'channels' => $channels
 		);

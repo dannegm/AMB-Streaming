@@ -21,6 +21,11 @@
 @section('styles')
 <link href="//fonts.googleapis.com/css?family=Lato:300,400&amp;subset=latin,latin-ext" rel="stylesheet">
 <link rel="stylesheet/less" href="{{URL::asset('/assets/home/less/event.less')}}">
+
+@if ($event->theme != 'normal')
+<link rel="stylesheet/less" href="{{URL::asset('/assets/home/themes/' . $event->theme . '.less')}}">
+@endif
+
 <style>
 	header {
 		background-image: url('{{URL::asset("/pictures/large/" . $event->background->url)}}');

@@ -100,6 +100,8 @@ class EventsController extends \BaseController {
 				$event->started_at = Input::get('started_at');
 				$event->ended_at = Input::get('ended_at');
 
+				$event->theme = Input::get('theme');
+
 				$pic_logo = Input::get('pic_logo');
 				$pic_logo = !empty($pic_logo) ? $pic_logo : 'avatarTV';
 				$event->logo_uid = $pic_logo;
@@ -189,6 +191,9 @@ class EventsController extends \BaseController {
 				$event->started_at = Input::get('started_at');
 				$event->ended_at = Input::get('ended_at');
 
+				$event->theme = Input::get('theme');
+				$event->nrecord = Input::get('nrecord');
+
 				$pic_logo = Input::get('pic_logo');
 				$pic_logo = !empty($pic_logo) ? $pic_logo : 'avatarTV';
 				$event->logo_uid = $pic_logo;
@@ -241,6 +246,38 @@ class EventsController extends \BaseController {
 			return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
 		} else {
 			return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
+		}
+	}
+
+	public function mark ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->edit) {
+			$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+			$event = $evento[0];
+
+			$event->marked = 1;
+			$event->save();
+
+			return Redirect::to(route('appanel.events.index'));
+		} else {
+			return Redirect::to(route('appanel.events.index'));
+		}
+	}
+
+	public function unmark ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->edit) {
+			$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+			$event = $evento[0];
+
+			$event->marked = 0;
+			$event->save();
+
+			return Redirect::to(route('appanel.events.index'));
+		} else {
+			return Redirect::to(route('appanel.events.index'));
 		}
 	}
 }

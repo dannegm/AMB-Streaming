@@ -13,6 +13,7 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
+				<th data-field="marker"></th>
 				<th data-field="uid" style="text-align: left;">uid</th>
 				<th data-field="name" style="text-align: left;">Canal</th>
 				<th data-field="name" style="text-align: left;">Nombre</th>
@@ -28,6 +29,17 @@
 			@endif
 			>
 				<td>
+					@if($c->marked != 0)
+					<a class="btn btn-link" href="{{route('appanel.events.unmark', array('uid' => $c->uid))}}" role="button">
+						<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</a>
+					@else
+					<a class="btn btn-link" href="{{route('appanel.events.mark', array('uid' => $c->uid))}}" role="button">
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+					</a>
+					@endif
+				</td>
+				<td>
 					@if($c->isLive())
 					<span class="label label-danger">En vivo</span>
 					@endif
@@ -37,7 +49,12 @@
 					<code>{{$c->uid}}</code>
 				</td>
 				<td>{{$c->channel->name}}</pre></td>
-				<td>{{$c->title}}</td>
+				<td>
+					{{$c->title}}
+					@if($c->nrecord != 0)
+						<span class="label label-default">#{{$c->nrecord}}</span>
+					@endif
+				</td>
 				<td class="hidden-sm">{{$c->start_date_human()}} - {{$c->ended_date_human()}}</td>
 				<td class="tools">
 					<a title="Ver" href="events/{{$c->uid}}/view" class="btn-icon">

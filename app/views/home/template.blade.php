@@ -35,17 +35,20 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.0/less.min.js"></script>
 		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-47107007-7', 'auto');
+			ga('send', 'pageview');
+		</script>
+		<script>
 		var wh, wh3, ww;
 		function resize () {
 			wh = $(window).height();
 			wh3 = wh / 3;
 			ww = $(window).width();
-
-			if ( $(window).width() < 660 ) {
-				$('#lastevents .thumb').removeClass('big');
-			} else {
-				$('#lastevents .thumb').addClass('big');
-			}
 
 			if ( $(window).width() < 400 ) {
 				$('.thumb').addClass('big');
@@ -55,6 +58,12 @@
 
 			if ( $(window).width() < 340 ) {
 				$('.thumb').removeClass('big');
+			}
+
+			if ( $(window).width() < 660 ) {
+				$('#lastevents .thumb').removeClass('big');
+			} else {
+				$('#lastevents .thumb').addClass('big');
 			}
 		}
 		$(function () {
@@ -86,7 +95,10 @@
 
 		<nav id="nav" class="top">
 			<div class="center">
-				<h1><a href="{{route('home.index')}}">AMB Streaming</a></h1>
+				<!-- <h1><a href="{{route('home.index')}}">AMB Streaming</a></h1> -->
+				<h1 class="wimage"><a href="{{route('home.index')}}">
+					<img src="{{URL::asset('/assets/home/img/logo-amb.png')}}" alt="AMB Multimedia">
+				</a></h1>
 				<ul>
 					<li><a href="{{route('home.index')}}">Inicio</a></li>
 				<!--	<li><a href="{{route('home.index')}}">Canales</a></li> -->

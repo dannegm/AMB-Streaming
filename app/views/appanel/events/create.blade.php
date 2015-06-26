@@ -189,6 +189,18 @@
 				<textarea id="description" name="description">{{Input::old('description')}}</textarea>
 		</div>
 
+		<div class="form-group" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
+			<div class="row">
+				<div class="col-xs-6">
+					<label>Tema del landing page</label>
+					<select name="theme" class="form-control">
+						<option value="normal" selected>Por defecto</option>
+						<option value="blank">Fondo con tonos claros</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group" style="border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin: 20px 0; padding: 20px 0;">
 			<div class="row">
 				<div class="col-xs-4">

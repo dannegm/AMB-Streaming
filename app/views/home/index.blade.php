@@ -16,7 +16,7 @@
 	<section id="slider">
 
 		<?php $sld = 1; ?>
-		@foreach ($last_events as $event)
+		@foreach ($marks_events as $event)
 		<div class="sld {{ $sld > 1 ? 'next' : 'now' }}" id="step_{{$sld}}"
 			style="background-image: url('{{URL::asset('/pictures/large/' . $event->background->url)}}');">
 			<div class="overlive">
@@ -61,6 +61,11 @@
 				style="background-image: url('{{URL::asset('/pictures/medium/' . $event->cover->url)}}');">
 
 				<span class="online">En vivo</span>
+
+				@if($event->nrecord != 0)
+					<span class="nsecuencia">#{{$event->nrecord}}</span>
+				@endif
+
 				<a class="link" href="{{route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title)))}}">
 				<div class="overlive">
 					<h3>{{$event->title}}</h3>
@@ -85,6 +90,12 @@
 					style="background-image: url('{{URL::asset('/pictures/medium/' . $event->cover->url)}}');">
 
 					<span class="online">En vivo</span>
+
+					@if($event->nrecord != 0)
+						<span class="nsecuencia">#{{$event->nrecord}}</span>
+					@endif
+
+
 					<a class="link" href="{{route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title)))}}">
 					<div class="overlive">
 						<h3>{{$event->title}}</h3>

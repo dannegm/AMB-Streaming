@@ -5,6 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="{{URL::asset('/panel/css/jquery.datetimepicker.css')}}">
 @stop
 @section('scripts')
+	<link rel="stylesheet" href="{{URL::asset('/panel/css/bootstrap-switch.min.css')}}">
+	<script src="{{URL::asset('/panel/js/bootstrap-switch.min.js')}}"></script>
+
 	<script src="{{URL::asset('/panel/js/fontsize.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/fullscreen.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/blockquote.js')}}"></script>
@@ -113,6 +116,7 @@
 	    }
 	};
 
+	$.fn.bootstrapSwitch.defaults.size = 'mini';
 	$(function () {
 	    // Logo
 	    $('#file_logo').on('change', function (e) {
@@ -134,6 +138,19 @@
 	        options_back.files = this.files;
 	        upload( options_back );
 	    });
+
+	    // Switches
+	    $('[type="checkbox"]').bootstrapSwitch();
+
+	    $('#is_w_number').on('switchChange.bootstrapSwitch', function(event, state) {
+	    	if (state) {
+	    		$('#nrecord').val('1');
+	    		$('#nrecord_field').show();
+	    	} else {
+	    		$('#nrecord').val('0');
+	    		$('#nrecord_field').hide();
+	    	}
+		});
 	});
 
 	// Datepicker
@@ -177,6 +194,12 @@
 
 	<!-- Formulario -->
 	{{Form::model($event, array('route' => array('appanel.events.update', $event->uid), 'method' => 'PUT'))}}
+
+		@if($event->nrecord != 0)
+		<div class="form-group">
+			<div class="alert alert-info" role="alert">Estás editando el evento <span class="label label-info">#{{$event->nrecord}}</span> de <b>{{$event->title}}</b></div>
+		</div>
+		@endif
 
 		<div class="form-group">
 				<label>Nombre del evento</label>
@@ -223,6 +246,32 @@
 		<div class="form-group">
 				<label>Descripción extensa</label>
 				<textarea id="description" name="description">{{$event->description}}</textarea>
+		</div>
+
+		<div class="form-group" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
+			<div class="row">
+				<div class="col-xs-6">
+					<label>Número secuencial de evento</label>
+					<div class="row">
+						<div class="col-xs-2" style="margin-top: 6px;">
+							<input type="checkbox" id="is_w_number"{{$event->nrecord != 0 ? ' checked' : ''}} />
+						</div>
+						<div class="col-xs-3" id="nrecord_field"{{$event->nrecord != 0 ? '' : ' style="display:none;"'}}>
+							<div class="input-group">
+								<div class="input-group-addon">#</div>
+								<input class="form-control" id="nrecord" type="nrecord" name="nrecord" placeholder="#secuencia" value="{{$event->nrecord}}">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<label>Tema del landing page</label>
+					<select name="theme" class="form-control">
+						<option value="normal"{{$event->theme == 'normal' ? ' selected' : ''}}>Por defecto</option>
+						<option value="blank"{{$event->theme == 'blank' ? ' selected' : ''}}>Fondo con tonos claros</option>
+					</select>
+				</div>
+			</div>
 		</div>
 
 		<div class="form-group" style="border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin: 20px 0; padding: 20px 0;">

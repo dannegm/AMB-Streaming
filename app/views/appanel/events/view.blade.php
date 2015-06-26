@@ -39,6 +39,13 @@
 
 	<div class="row">
 		<div class="col-md-12">
+
+			@if($event->nrecord != 0)
+			<div class="form-group">
+				<div class="alert alert-info" role="alert">Estás viendo la información del evento <span class="label label-info">#{{$event->nrecord}}</span> de <b>{{$event->title}}</b></div>
+			</div>
+			@endif
+
 			<h3>{{$event->title}}</h3>
 			@if($event->isLive())
 			<p>

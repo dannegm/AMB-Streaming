@@ -69,6 +69,9 @@ Route::group(array('before' => 'auth', 'prefix' => 'appanel'), function() {
 
 	Route::get('events/{uid}/addhour', array('as' => 'appanel.events.addhour', 'uses' => 'EventsController@addHour'));
 	Route::get('events/{uid}/finish', array('as' => 'appanel.events.finish', 'uses' => 'EventsController@finish'));
+	
+	Route::get('events/{uid}/mark', array('as' => 'appanel.events.mark', 'uses' => 'EventsController@mark'));
+	Route::get('events/{uid}/unmark', array('as' => 'appanel.events.unmark', 'uses' => 'EventsController@unmark'));
 
 });
 

@@ -27,6 +27,11 @@
 					style="background-image: url('{{URL::asset('/pictures/medium/' . $event->cover->url)}}');">
 
 					<span class="online">En vivo</span>
+
+					@if($event->nrecord != 0)
+						<span class="nsecuencia">#{{$event->nrecord}}</span>
+					@endif
+
 					<a class="link" href="{{route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title)))}}">
 					<div class="overlive">
 						<h3>{{$event->title}}</h3>
