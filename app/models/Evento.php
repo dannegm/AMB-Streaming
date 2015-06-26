@@ -27,12 +27,22 @@ class Evento extends Eloquent {
 	}
 
 	public function isLive () {
-		date_default_timezone_set('america/mexico_city');
 		$ended = strtotime($this->ended_at);
 		$start = strtotime($this->started_at);
 		$now = time();
 
 		if ($ended > $now && $now > $start) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function isFinish () {
+		$ended = strtotime($this->ended_at);
+		$now = time();
+
+		if ($ended < $now) {
 			return true;
 		} else {
 			return false;

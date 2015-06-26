@@ -31,20 +31,23 @@
 				window.location.reload();
 			});
 	});
+	document.oncontextmenu = function(){ return false; };
+	document.onselectstart = function(){ return false; };
 	</script>
 
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href="//fonts.googleapis.com/css?family=Lato:300,400&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
 	<style>
 	* {
-	  margin: 0;
-	  padding: 0;
+		margin: 0;
+		padding: 0;
+		cursor: arrow;
 	}
 	html, body {
-	  background: #222;
-	  font-family: 'Roboto Slab', serif;
-	  color: #fff;
-	  font-size: 16px;
+		background: #222;
+		font-family: 'Roboto Slab', serif;
+		color: #fff;
+		font-size: 16px;
 	}
 
 	#cover {
@@ -83,6 +86,15 @@
 	}
 	h2 {
 		font-size: 1em;
+	}
+
+	@media (max-width: 560px) {
+		h1 {
+			font-size: 1.8em;
+		}
+		h2 {
+			font-size: .8em;
+		}
 	}
 	</style>
 </head>

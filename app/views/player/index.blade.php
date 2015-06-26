@@ -54,8 +54,30 @@
 
 				@endif
 			@endif
+
+			var muted = false;
+			var loc = window.location.href;
+			if (loc.match(/\muted/gi)) {
+				muted = true;
+			}
+
+			@if(!Agent::isMobile() && !Agent::isTablet())
+			var myPlayer = videojs('liveplayer');
+			if (muted) {
+				myPlayer.muted(true);
+			}
+
+
+			myPlayer.ready(function($) {
+				if ( !myPlayer.muted() && muted) {
+					myPlayer.muted(true);
+				}
+			});
+			@endif
 		}
 		$(r);
+		document.oncontextmenu = function(){ return false; };
+		document.onselectstart = function(){ return false; };
 	</script>
 
 	<style>
@@ -102,6 +124,79 @@
 			background: #000;
 			position: absolute;
 		}
+
+		@if(!Agent::isMobile() && !Agent::isTablet())
+			@if($status != 'live')
+				.vjs-time-divider, .vjs-duration, .vjs-current-time-display {
+					display: block;
+				}
+				.vjs-current-time.vjs-time-controls.vjs-control {
+				  width: 4em;
+				  text-align: center;
+				}
+				.vjs-default-skin .vjs-progress-control {
+					position: absolute;
+					left: 145px;
+					right: 135px;
+					width: auto;
+					font-size: 0.5em;
+					height: 1em;
+					top: 2.3em;
+					-webkit-transition: all 0.4s;
+					-moz-transition: all 0.4s;
+					-o-transition: all 0.4s;
+					transition: all 0.4s;
+					display: block;
+					opacity: .5;
+				}
+
+				.vjs-default-skin:hover .vjs-progress-control {
+					-webkit-transition: all 0.2s;
+					-moz-transition: all 0.2s;
+					-o-transition: all 0.2s;
+					transition: all 0.2s;
+					opacity: 1;
+				}
+				.vjs-default-skin .vjs-progress-holder {
+					height: 100%;
+				}
+				.vjs-default-skin .vjs-progress-holder .vjs-play-progress,
+				.vjs-default-skin .vjs-progress-holder .vjs-load-progress,
+				.vjs-default-skin .vjs-progress-holder .vjs-load-progress div {
+					position: absolute;
+					display: block;
+					height: 100%;
+					margin: 0;
+					padding: 0;
+					width: 0;
+					left: 0;
+					top: 0;
+				}
+				.vjs-default-skin .vjs-play-progress {
+					background: #66a8cc;
+				}
+				.vjs-default-skin .vjs-load-progress {
+					background: rgba(255, 255, 255, 0.2);
+				}
+				.vjs-default-skin .vjs-load-progress div {
+					background: rgba(255, 255, 255, 0.1);
+				}
+				.vjs-default-skin .vjs-seek-handle {
+					width: 1.5em;
+					height: 100%;
+				}
+				.vjs-default-skin .vjs-seek-handle:before {
+					padding-top: 0.1em;
+				}
+				.vjs-default-skin .vjs-slider-handle:before {
+					content: '';
+					display: none;
+				}
+				.vjs-progress-holder.vjs-slider {
+					background-color: rgba(51, 51, 51, 0.7);
+				}
+			@endif
+		@endif
 	</style>
 
 </head>

@@ -85,6 +85,12 @@ class ChannelsController extends \BaseController {
 				$channel->uid =  uniqid();
 				$channel->timeid = time();
 
+				function get_check_value ($input) {
+					$input = empty($input) ? 'off' : 'on';
+					return $input != 'on' ? 0 : 1;
+				}
+				$channel->visible = get_check_value( Input::get('visible') );
+
 				$channel->name = Input::get('name');
 				$channel->description = Input::get('description');
 
@@ -106,7 +112,7 @@ class ChannelsController extends \BaseController {
 				$channel->background_uid = $pic_back;
 
 				$channel->save();
-				return Redirect::to(route('appanel.channels.index'));
+				return Redirect::to(route('appanel.channels.view', array('uid' => $channel->uid)));
 			}
 		} else {
 			return Redirect::to(route('appanel.channels.index'));
@@ -131,7 +137,7 @@ class ChannelsController extends \BaseController {
 	}
 
 	// Store
-	public function update () {
+	public function update ($uid) {
 		$selfuser = Auth::user();
 		$permissions = $selfuser->permissions();
 		if ($permissions->channels->edit) {
@@ -162,8 +168,12 @@ class ChannelsController extends \BaseController {
 				$channels = Channel::where('uid', '=', $uid)->take(1)->get();
 				$channel = $channels[0];
 
-				$channel->uid =  uniqid();
-				$channel->timeid = time();
+				function get_check_value ($input) {
+					$input = empty($input) ? 'off' : 'on';
+					return $input != 'on' ? 0 : 1;
+				}
+				$channel->visible = get_check_value( Input::get('visible') );
+
 
 				$channel->name = Input::get('name');
 				$channel->description = Input::get('description');
@@ -186,10 +196,42 @@ class ChannelsController extends \BaseController {
 				$channel->background_uid = $pic_back;
 
 				$channel->save();
-				return Redirect::to(route('appanel.channels.index'));
+				return Redirect::to(route('appanel.channels.view', array('uid' => $uid)));
 			}
 		} else {
 			return Redirect::to(route('appanel.channels.index'));
+		}
+	}
+
+	public function setOnline ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->channels->edit) {
+			$channels = Channel::where('uid', '=', $uid)->take(1)->get();
+			$channel = $channels[0];
+
+			$channel->online = 1;
+			$channel->save();
+
+			return Redirect::to(route('appanel.channels.view', array('uid' => $uid)));
+		} else {
+			return Redirect::to(route('appanel.channels.view', array('uid' => $uid)));
+		}
+	}
+
+	public function setOffline ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->channels->edit) {
+			$channels = Channel::where('uid', '=', $uid)->take(1)->get();
+			$channel = $channels[0];
+
+			$channel->online = 0;
+			$channel->save();
+
+			return Redirect::to(route('appanel.channels.view', array('uid' => $uid)));
+		} else {
+			return Redirect::to(route('appanel.channels.view', array('uid' => $uid)));
 		}
 	}
 }

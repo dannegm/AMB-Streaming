@@ -6,29 +6,30 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 	<style>
 	* {
-	  margin: 0;
-	  padding: 0;
+		margin: 0;
+		padding: 0;
+		cursor: arrow;
 	}
 	html, body {
-	  font-family: 'Roboto Slab', serif;
-	  background: #eee;
-	  color: #888;
+		font-family: 'Roboto Slab', serif;
+		background: #eee;
+		color: #888;
 	}
 	h1, h2 {
-	  font-weight: 300;
-	  text-align: center;
+		font-weight: 300;
+		text-align: center;
 	}
 	h2 {
 		font-weight: 100;
 	}
 	#text {
-	  display: block;
-	  overflow: hidden;
-	  height: 70px;
-	  position:absolute;
-	  width: 100%;
-	  top: 50%;
-	  margin-top: -35px;
+		display: block;
+		overflow: hidden;
+		height: 70px;
+		position:absolute;
+		width: 100%;
+		top: 50%;
+		margin-top: -35px;
 	}
 
 	@if(!empty($cover))
@@ -38,8 +39,8 @@
 		left: 0;
 		right: 0;
 		top: 0;
-	  background: #222 url("{{URL::asset('/pictures/normal/' . $cover)}}");
-	  background-size: cover;
+		background: #222 url("{{URL::asset('/pictures/normal/' . $cover)}}");
+		background-size: cover;
 	}
 	#text {
 		color: #fff;
@@ -60,7 +61,20 @@
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
 	}
 	@endif
+
+	@media (max-width: 560px) {
+		h1 {
+			font-size: 1.8em;
+		}
+		h2 {
+			font-size: .8em;
+		}
+	}
 	</style>
+	<script>
+	document.oncontextmenu = function(){ return false; };
+	document.onselectstart = function(){ return false; };
+	</script>
 </head>
 <body>
   <div id="background"></div>

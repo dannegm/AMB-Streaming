@@ -12,8 +12,8 @@
 */
 
 // Player
-Route::get('channel/{uid}/player', array('uses' => 'PlayerController@channel'));
-Route::get('event/{uid}/player', array('uses' => 'PlayerController@event'));
+Route::get('channel/{uid}/player', array('as' => 'player.channel', 'uses' => 'PlayerController@channel'));
+Route::get('event/{uid}/player', array('as' => 'player.event', 'uses' => 'PlayerController@event'));
 Route::get('api/widget.js', array('uses' => 'PlayerController@widget'));
 
 // Home
@@ -22,6 +22,9 @@ Route::get('events', array('as' => 'home.events', 'uses' => 'IndexController@eve
 
 Route::get('channel/{uid}/{void}', array('as' => 'home.channel', 'uses' => 'IndexController@channel'));
 Route::get('event/{uid}/{void}', array('as' => 'home.event', 'uses' => 'IndexController@event'));
+
+// 404
+Route::get('404', array('as' => 'home.e404', 'uses' => 'IndexController@e404'));
 
 // App
 Route::get('appanel', array('as' => 'appanel', 'uses'=>'AppController@login'));
@@ -52,6 +55,8 @@ Route::group(array('before' => 'auth', 'prefix' => 'appanel'), function() {
 	Route::get('channels/{uid}/edit', array('as' => 'appanel.channels.edit', 'uses' => 'ChannelsController@edit'));
 	Route::put('channels/{uid}/update', array('as' => 'appanel.channels.update', 'uses' => 'ChannelsController@update'));
 	Route::get('channels/{uid}/delete', array('as' => 'appanel.channels.delete', 'uses' => 'ChannelsController@delete'));
+	Route::get('channels/{uid}/put/online', array('as' => 'appanel.channels.put.online', 'uses' => 'ChannelsController@setOnline'));
+	Route::get('channels/{uid}/put/offline', array('as' => 'appanel.channels.put.offline', 'uses' => 'ChannelsController@setOffline'));
 
 	// Events
 	Route::get('events', array('as' => 'appanel.events.index', 'uses' => 'EventsController@index'));
@@ -62,4 +67,11 @@ Route::group(array('before' => 'auth', 'prefix' => 'appanel'), function() {
 	Route::put('events/{uid}/update', array('as' => 'appanel.events.update', 'uses' => 'EventsController@update'));
 	Route::get('events/{uid}/delete', array('as' => 'appanel.events.delete', 'uses' => 'EventsController@delete'));
 
+	Route::get('events/{uid}/addhour', array('as' => 'appanel.events.addhour', 'uses' => 'EventsController@addHour'));
+	Route::get('events/{uid}/finish', array('as' => 'appanel.events.finish', 'uses' => 'EventsController@finish'));
+
+});
+
+App::error(function (Exception $exception) {
+    return Redirect::to(route('home.e404'));
 });

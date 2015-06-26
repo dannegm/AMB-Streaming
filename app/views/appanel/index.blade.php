@@ -42,18 +42,18 @@
 				</div>
 				<div class="panel-footer">
 					<div class="btn-toolbar">
-						<a target="_blank" href="{{route('appanel.events.view', array('uid' => $event->uid))}}" class="btn btn-primary btn-sm" role="button">Información</a>
+						<a href="{{route('appanel.events.view', array('uid' => $event->uid))}}" class="btn btn-primary btn-sm" role="button">Información</a>
 						<a target="_blank" href="{{route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title)))}}" class="btn btn-default btn-sm" role="button">Landing page</a>
 						@if(Auth::user()->permissions()->events->edit)
 						<a href="{{route('appanel.events.edit', array('uid' => $event->uid))}}" class="btn btn-default btn-sm" role="button">Editar</a>
-						<a href="#" class="btn btn-default btn-sm" role="button" disabled="disabled">Extender 1hr</a>
+						<a href="{{route('appanel.events.addhour', array('uid' => $event->uid))}}" class="btn btn-default btn-sm" role="button">Extender 1hr</a>
 						@endif
 					</div>
 				</div>
 			</div>
 		</div>
 		@else
-		<div class="col-md-3">
+		<div class="col-md-3 col-sm-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">{{$event->title}}</div>
 
@@ -63,9 +63,9 @@
 					<p>{{$event->subtitle}}</p>
 				</div>
 				<div class="panel-body">
-						<a href="events/create" class="btn btn-default btn-sm" role="button">Información</a>
+						<a href="{{route('appanel.events.view', array('uid' => $event->uid))}}" class="btn btn-default btn-sm" role="button">Información</a>
 						@if(Auth::user()->permissions()->events->edit)
-						<a href="events/create" class="btn btn-default btn-sm" role="button">Editar</a>
+						<a href="{{route('appanel.events.edit', array('uid' => $event->uid))}}" class="btn btn-default btn-sm" role="button">Editar</a>
 						@endif
 				</div>
 			</div>

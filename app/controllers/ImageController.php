@@ -34,10 +34,7 @@ class ImageController extends \BaseController {
 				$image->move('pictures', $filename);
 				$fileUrl = URL::asset('pictures/' . $filename);
 				$fileUrlMiddle = URL::asset('pictures/medium/' . $filename);
-
-				if ($group == 'UserProfile') {
-					$fileUrlMiddle = URL::asset('pictures/sqm/' . $imagen[0]->url);
-				}
+				$sqm = URL::asset('pictures/sqm/' . $filename);
 
 				// asignamos las carpetas a variables
 				$file = public_path('pictures/' . $filename);
@@ -98,14 +95,14 @@ class ImageController extends \BaseController {
 					'description' => 'Se guardó la imagen',
 					'pic' => $fileUrlMiddle,
 					'filelink' => $fileUrlMiddle,
+					'sqm' => $sqm,
 					'id' => $uid
 				);
 			} else {
 				// si la imágen ya existe obtenemos la url
 				$fileUrlMiddle = URL::asset('pictures/medium/' . $imagen[0]->url);
-				if ($group == 'UserProfile') {
-					$fileUrlMiddle = URL::asset('pictures/sqm/' . $imagen[0]->url);
-				}
+				$sqm = URL::asset('pictures/sqm/' . $imagen[0]->url);
+
 				// guardamos el status en json
 				$status = array(
 					'status' => 'repeat',
@@ -115,6 +112,7 @@ class ImageController extends \BaseController {
 					'description' => 'La imágen ya existe',
 					'pic' => $fileUrlMiddle,
 					'filelink' => $fileUrlMiddle,
+					'sqm' => $sqm,
 					'id' => $imagen[0]->uid
 				);
 			}

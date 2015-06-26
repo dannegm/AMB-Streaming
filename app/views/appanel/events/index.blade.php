@@ -16,7 +16,7 @@
 				<th data-field="uid" style="text-align: left;">uid</th>
 				<th data-field="name" style="text-align: left;">Canal</th>
 				<th data-field="name" style="text-align: left;">Nombre</th>
-				<th data-field="date" style="text-align: left;">Fecha</th>
+				<th data-field="date" style="text-align: left;" class="hidden-sm">Fecha</th>
 				<th data-field="tools"></th>
 			</tr>
 		</thead>
@@ -31,11 +31,14 @@
 					@if($c->isLive())
 					<span class="label label-danger">En vivo</span>
 					@endif
+					@if(!empty($c->rtmp))
+					<span class="label label-info">REC</span>
+					@endif
 					<code>{{$c->uid}}</code>
 				</td>
 				<td>{{$c->channel->name}}</pre></td>
 				<td>{{$c->title}}</td>
-				<td>{{$c->start_date_human()}} - {{$c->ended_date_human()}}</td>
+				<td class="hidden-sm">{{$c->start_date_human()}} - {{$c->ended_date_human()}}</td>
 				<td class="tools">
 					<a title="Ver" href="events/{{$c->uid}}/view" class="btn-icon">
 						<i class="icon-visibility"></i>

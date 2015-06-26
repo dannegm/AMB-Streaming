@@ -15,7 +15,7 @@
 			<tr>
 				<th data-field="uid" style="text-align: left;">uid</th>
 				<th data-field="name" style="text-align: left;">Nombre</th>
-				<th data-field="rtmp" style="text-align: left;">RTMP</th>
+				<th data-field="rtmp" style="text-align: left;" class="hidden-sm">RTMP</th>
 				<th data-field="tools"></th>
 			</tr>
 		</thead>
@@ -27,13 +27,19 @@
 			@endif
 			>
 				<td>
-					@if($c->has_live() != false)
+					@if($c->visible == 0)
+					<span class="label label-default">Hiden</span>
+					@endif
+					@if($c->has_live() != false && $c->online == 0)
 					<span class="label label-danger">En vivo</span>
+					@endif
+					@if($c->online != 0)
+					<span class="label label-success">Online</span>
 					@endif
 					<code>{{$c->uid}}</code>
 				</td>
 				<td>{{$c->name}}</td>
-				<td>{{$c->rtmp}}</td>
+				<td class="hidden-sm">{{$c->rtmp}}</td>
 				<td class="tools">
 					<a title="Ver" href="channels/{{$c->uid}}/view" class="btn-icon">
 						<i class="icon-visibility"></i>

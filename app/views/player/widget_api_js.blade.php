@@ -1,11 +1,21 @@
+
 (function() {
     var tv = document.getElementsByTagName('amb:video')[0];
     var width = tv.getAttribute('width');
     var uid = tv.getAttribute('uid');
     var typpe = tv.getAttribute('type');
+    var isDebug = tv.getAttribute('debug');
 
     var iframe = document.createElement('iframe');
-    iframe.src = '{{URL::asset("")}}' + typpe + '/' + uid + '/player';
+
+    var debug = isDebug ? '?debug' : '';
+
+    var loc = window.top.location.href;
+    if (loc.match(/\?|debug/gi)) {
+        debug = '?debug';
+    }
+
+    iframe.src = '{{URL::asset("")}}' + typpe + '/' + uid + '/player' + debug;
     iframe.style.position = 'absolute';
     iframe.setAttribute('frameborder', '0');
     iframe.setAttribute('allowfullscreen', 'true');

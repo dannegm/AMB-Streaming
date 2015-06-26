@@ -5,7 +5,7 @@ class IndexController extends BaseController {
 
 		$last_events = Evento::orderBy('ended_at', 'desc')->take(3)->get();
 
-		$channels = Channel::orderBy('id', 'desc')->get();
+		$channels = Channel::where('visible', '=', 1)->orderBy('id', 'desc')->take(3)->get();
 
 		$data = array (
 			'title' => "Inicio",
@@ -16,30 +16,34 @@ class IndexController extends BaseController {
 	}
 
 	public function channel ($uid, $void) {
+		$channels = Channel::where('uid', '=', $uid)->take(1);
+		$channel = $channels->get()[0];
+
+		$data = array (
+			'title' => $channel->name,
+			'channel' => $channel
+		);
+		return View::make('home/channel', $data);
 	}
 
 	public function event ($uid, $void) {
 		$events = Evento::where('uid', '=', $uid)->take(1);
 		$results = $events->count();
 
-		$event = $events->get()[0];
 		if ($results > 0) {
+			$event = $events->get()[0];
 			$data = array (
 				'title' => $event->title,
 				'event' => $event
 			);
 			return View::make('home/event', $data);
 		} else {
-			echo "404 - No se encontró el evento";
+			return View::make('home/e404', $data);
 		}
 	}
 
-	public function search ($search) {
-
-	}
-
 	public function events () {
-		$channels = Channel::orderBy('id', 'desc')->get();
+		$channels = Channel::where('visible', '=', 1)->orderBy('id', 'desc')->get();
 
 		$data = array (
 			'title' => "Inicio",
@@ -47,4 +51,21 @@ class IndexController extends BaseController {
 		);
 		return View::make('home/events', $data);
 	}
+
+	public function e404 () {
+		$data = array (
+			'title' => '404: Página no encontrada'
+		);
+		return View::make('home/e404', $data);
+	}
+
+	public function search ($search) {
+
+	}
 }
+
+
+
+
+
+

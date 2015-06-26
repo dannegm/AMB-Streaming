@@ -22,16 +22,20 @@ class Channel extends Eloquent {
 	}
 
 	public function has_live () {
-		$events = $this->events()->take(1)->get();
-		$event = $events[0];
+		$events = $this->hasMany('Evento', 'channel_uid', 'uid')->where('started_at', '<', Carbon::now())->orderBy('ended_at', 'desc')->take(1);
+		$results = $events->count();
 
-		date_default_timezone_set('america/mexico_city');
-		$ended = strtotime($event->ended_at);
-		$start = strtotime($event->started_at);
-		$now = time();
+		if ($results) {
+			$event = $events->get()[0];
+			$ended = strtotime($event->ended_at);
+			$start = strtotime($event->started_at);
+			$now = time();
 
-		if ($ended > $now && $now > $start) {
-			return $event;
+			if ($ended > $now && $now > $start) {
+				return $event;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}

@@ -1,0 +1,83 @@
+#header {
+	background: #222 center no-repeat;
+	background-image: url('http://video.ambmultimedia.mx/pictures/7d93ecdc1e44b57ef6f6e6b93c66c032.jpg');
+	background-size: cover;
+	display: block;
+	width: 100%;
+	margin: 0;
+	overflow: hidden;
+
+	.overlive {
+		display: block;
+		width: 100%;
+		height: 100%;
+
+		background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+		background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+		background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+		background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+		background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+
+		h1 {
+			text-align: center;
+			padding: .5em;
+			font-size: 4em;
+			font-weight: 300;
+			color: #fff;
+			text-shadow: 0px 0px rgba(0,0,0,.3);
+		}
+	}
+}
+p {
+	padding: .2em;
+	font-size: 1.5em;
+	font-weight: 300;
+	.btn {
+		background: #890A31;
+		display: inline-block;
+		color: #fff;
+		padding: .8em 1em;
+		text-transform: uppercase;
+		text-decoration: none;
+		font-size: .7em;
+		margin: 1.5em;
+		border-radius: .5em;
+		transition: all .3s;
+		&:hover {
+			background: #B40A3F;
+			box-shadow: 0px 2px 15px 7px rgba(0,0,0,.2);
+		}
+		&:active {
+			box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+		}
+	}
+}
+
+
+
+@media (max-width: 720px) {
+	#header {
+		.overlive {
+			h1 {
+				font-size: 2em !important;
+			}
+			.media {
+				margin: 1em;
+				margin-bottom: 0;
+				width: auto !important;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+

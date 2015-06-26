@@ -18,10 +18,18 @@
 	</div>
 
 	<div class="btn-toolbar" style="margin-bottom: 1em;">
-		<a target="_blank" href="#" class="btn btn-primary btn-sm" role="button" disabled="disabled">Landing page</a>
+		<a target="_blank" href="{{route('home.channel', array('uid' => $channel->uid, 'void' => urlencode($channel->name)))}}" class="btn btn-primary btn-sm" role="button">Landing page</a>
 
 		@if(Auth::user()->permissions()->channels->edit)
-		<a href="{{route('appanel.channels.edit', array('uid' => $channel->uid))}}" class="btn btn-default btn-sm" role="button">Editar</a>
+			@if(!$channel->has_live())
+				@if($channel->online != 0)
+				<a href="{{route('appanel.channels.put.offline', array('uid' => $channel->uid))}}" class="btn btn-warning btn-sm" role="button">Poner Offline</a>
+				@else
+				<a href="{{route('appanel.channels.put.online', array('uid' => $channel->uid))}}" class="btn btn-success btn-sm" role="button">Poner Online</a>
+				@endif
+			@endif
+
+			<a href="{{route('appanel.channels.edit', array('uid' => $channel->uid))}}" class="btn btn-default btn-sm" role="button">Editar</a>
 		@endif
 
 		<a href="#" class="btn btn-default btn-sm" role="button" disabled="disabled">Ver estadísticas</a>
@@ -32,7 +40,7 @@
 		@endif
 	</div>
 
-	@if($channel->has_live() != false)
+	@if($channel->has_live() != false && $channel->online == 0)
 	<?php $event = $channel->has_live(); ?>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
@@ -56,8 +64,8 @@
 				<a target="_blank" href="{{route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title)))}}" class="btn btn-default btn-sm" role="button">Landing page</a>
 				@if(Auth::user()->permissions()->events->edit)
 				<a href="{{route('appanel.events.edit', array('uid' => $event->uid))}}" class="btn btn-default btn-sm" role="button">Editar</a>
-				<a href="#" class="btn btn-default btn-sm" role="button" disabled="disabled">Extender 1hr</a>
-				<a href="#" class="btn btn-danger btn-sm" role="button" disabled="disabled">Terminar</a>
+				<a href="{{route('appanel.events.addhour', array('uid' => $event->uid))}}" class="btn btn-default btn-sm" role="button">Extender 1hr</a>
+				<a href="{{route('appanel.events.finish', array('uid' => $event->uid))}}" class="btn btn-danger btn-sm" role="button">Terminar</a>
 				@endif
 			</div>
 		</div>
@@ -66,7 +74,27 @@
 
 	<div id="channel_info">
 		<div class="row">
-			<div class="col-md-12">
+
+
+
+			@if($channel->online != 0)
+			<div class="col-lg-4 col-md-6 col-sm-5 col-xs-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">En vivo ahora</h3>
+					</div>
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe id="player" src="{{route('player.channel', array('uid' => $channel->uid))}}?muted" frameborder="0" allowfullscreen="true"></iframe>
+						</div>
+					<div class="panel-footer">
+							<span class="label label-success">Online</span>
+							<code>Transmitiendo indefinidamente</span></code>
+					</div>
+				</div>
+			</div>
+			@endif
+
+			<div class="col-lg-8 col-md-6 col-sm-7 col-xs-12">
 				<h5>Información RTMP</h5>
 				<blockquote style="font-size: 1em;">
 					<dl class="dl-horizontal">

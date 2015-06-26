@@ -31,7 +31,7 @@
 	    },
 	    success: function (response) {
 	        $('#pic_avatar').val(response.id);
-	        $('#img_avatar').attr('src', response.pic).fadeIn();
+	        $('#img_avatar').attr('src', response.sqm).fadeIn();
 	    }
 	};
 
@@ -79,7 +79,7 @@
 	<!-- Formulario -->
 	{{Form::open(array('url' => route('appanel.user.store')))}}
 	<div class="row">
-		<div class="col-md-6 col-xs-12">
+		<div class="col-md-6 col-sm-8 col-xs-12">
 			<div class="form-group">
 				<label>Nombre</label>
 				<input class="form-control input-lg" type="text" name="name" placeholder="Nombre" value="{{Input::old('name')}}">
@@ -121,10 +121,9 @@
 
 		</div>
 
-		<div class="col-md-6 col-xs-12">
-			<h3>Permisos</h3>
+		<div class="col-md-6 col-sm-4 col-xs-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">Usuarios</div>
+				<div class="panel-heading">Permisos para <b>Usuarios</b></div>
 				<table class="table">
 					<tr>
 						<td>Crear</td>
@@ -141,7 +140,7 @@
 				</table>
 			</div>
 			<div class="panel panel-default">
-				<div class="panel-heading">Canales</div>
+				<div class="panel-heading">Permisos para <b>Canales</b></div>
 				<table class="table">
 					<tr>
 						<td>Crear</td>
@@ -158,7 +157,7 @@
 				</table>
 			</div>
 			<div class="panel panel-default">
-				<div class="panel-heading">Eventos</div>
+				<div class="panel-heading">Permisos para <b>Eventos</b></div>
 				<table class="table">
 					<tr>
 						<td>Crear</td>

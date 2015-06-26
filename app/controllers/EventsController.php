@@ -6,7 +6,7 @@ class EventsController extends \BaseController {
 	Views
 	*/
 	public function index () {
-		$events = Evento::orderBy('id', 'desc')->get();
+		$events = Evento::orderBy('ended_at', 'desc')->get();
 		$data = array (
 			'title' => 'Eventos',
 			'subtitle' => 'Todos los eventos',
@@ -113,7 +113,7 @@ class EventsController extends \BaseController {
 				$event->background_uid = $pic_back;
 
 				$event->save();
-				return Redirect::to(route('appanel.events.index'));
+				return Redirect::to(route('appanel.events.view', array('uid' => $event->uid)));
 			}
 		} else {
 			return Redirect::to(route('appanel.events.index'));
@@ -181,6 +181,11 @@ class EventsController extends \BaseController {
 				$event->locale = Input::get('locale');
 				$event->rtmp = Input::get('rtmp');
 
+				$event->ftp_host = Input::get('ftp_host');
+				$event->ftp_port = Input::get('ftp_port');
+				$event->ftp_user = Input::get('ftp_user');
+				$event->ftp_pass = Input::get('ftp_pass');
+
 				$event->started_at = Input::get('started_at');
 				$event->ended_at = Input::get('ended_at');
 
@@ -197,10 +202,45 @@ class EventsController extends \BaseController {
 				$event->background_uid = $pic_back;
 
 				$event->save();
-				return Redirect::to(route('appanel.events.index'));
+				return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
 			}
 		} else {
 			return Redirect::to(route('appanel.events.index'));
+		}
+	}
+
+	public function addHour ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->edit) {
+			$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+			$event = $evento[0];
+
+			$dt = Carbon::parse( $event->ended_at );
+			$dt->addHour();
+
+			$event->ended_at = $dt;
+			$event->save();
+
+			return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
+		} else {
+			return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
+		}
+	}
+
+	public function finish ($uid) {
+		$selfuser = Auth::user();
+		$permissions = $selfuser->permissions();
+		if ($permissions->events->edit) {
+			$evento = Evento::where('uid', '=', $uid)->take(1)->get();
+			$event = $evento[0];
+
+			$event->ended_at = Carbon::now();
+			$event->save();
+
+			return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
+		} else {
+			return Redirect::to(route('appanel.events.view', array('uid' => $uid)));
 		}
 	}
 }

@@ -2,7 +2,20 @@
 
 @section('metas')
 	<meta property="og:title" content="{{$event->title}}">
-	<meta property="og:description" content="{{$event->subtitle}}">
+	<meta property="og:description" content="{{strip_tags(addslashes($event->subtitle))}}">
+	<meta property="og:url" content="{{route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title)))}}" />
+	<meta property="og:type" content="video.other" />
+	<meta property="og:site_name" content="AMB Streaming" />
+
+	<meta property="og:image" content="{{URL::asset('/pictures/medium/' . $event->cover->url)}}" />
+	<meta property="og:image:type" content="{{$event->cover->content_type}}" />
+	<meta property="og:image:width" content="{{$event->cover->width}}" />
+	<meta property="og:image:height" content="{{$event->cover->height}}" />
+
+	<meta property="og:video" content="{{route('player.event', array('uid' => $event->uid))}}" />
+	<meta property="og:video:type" content="text/html" />
+	<meta property="og:video:width" content="720" />
+	<meta property="og:video:height" content="405" />
 @stop
 
 @section('styles')
@@ -23,12 +36,13 @@
 			<div class="center">
 				@if( $event->logo_uid != "avatarTV" )
 				<h1 style="text-align: center;">
-					<img src="{{URL::asset("/pictures/normal/" . $event->logo->url)}}" style="max-width: 720px; width: auto;" />
+					<img src="{{URL::asset("/pictures/normal/" . $event->logo->url)}}" />
 				</h1>
 				@else
 				<h1>{{$event->title}}</h1>
 				<h2>{{$event->locale}}</h2>
 				@endif
+
 				<div id="containvideo">
 					<script>
 					(function() {

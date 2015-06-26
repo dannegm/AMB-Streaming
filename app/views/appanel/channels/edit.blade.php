@@ -4,6 +4,9 @@
 	<link rel="stylesheet" type="text/css" href="{{URL::asset('/panel/css/redactor.css')}}">
 @stop
 @section('scripts')
+	<link rel="stylesheet" href="{{URL::asset('/panel/css/bootstrap-switch.min.css')}}">
+	<script src="{{URL::asset('/panel/js/bootstrap-switch.min.js')}}"></script>
+
 	<script src="{{URL::asset('/panel/js/fontsize.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/fullscreen.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/redactor.min.js')}}"></script>
@@ -100,6 +103,7 @@
 	    }
 	};
 
+	$.fn.bootstrapSwitch.defaults.size = 'mini';
 	$(function () {
 	    // Logo
 	    $('#file_logo').on('change', function (e) {
@@ -121,6 +125,9 @@
 	        options_back.files = this.files;
 	        upload( options_back );
 	    });
+
+	    // Switches
+	    $('[type="checkbox"]').bootstrapSwitch();
 	});
 
 	</script>
@@ -158,6 +165,11 @@
 		<div class="form-group">
 			<label>Nombre</label>
 			<input class="form-control input-lg" type="text" name="name" placeholder="Nombre del canal" value="{{$channel->name}}">
+		</div>
+		<div class="form-group">
+			<label>Hacer visible el canal</label>
+			<br />
+			<input type="checkbox" name="visible"{{$channel->visible != 0 ? ' checked' : ''}} />
 		</div>
 		<div class="form-group">
 			<textarea id="description" name="description" placeholder="Descripción">{{$channel->description}}</textarea>

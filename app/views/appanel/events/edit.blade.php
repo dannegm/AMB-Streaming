@@ -7,6 +7,7 @@
 @section('scripts')
 	<script src="{{URL::asset('/panel/js/fontsize.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/fullscreen.min.js')}}"></script>
+	<script src="{{URL::asset('/panel/js/blockquote.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/redactor.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/jquery.datetimepicker.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/dnn.upload.js')}}"></script>
@@ -187,6 +188,31 @@
 					<label>RTMP de respaldo</label>
 					<input class="form-control" type="rtmp" name="rtmp" placeholder="rtmp://" value="{{$event->rtmp}}">
 					<span id="helpBlock" class="help-block">Código RTMP de la grabación del evento, dejar en blanco para desactivar esta opción.</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-xs-12">
+					<label>Información FTP</label>
+					<div class="row">
+						<div class="col-xs-3">
+							<input class="form-control" type="ftp_host" name="ftp_host" placeholder="ftp://" value="{{$event->ftp_host}}">
+							<span id="helpBlock" class="help-block">Host</span>
+						</div>
+						<div class="col-xs-3">
+							<input class="form-control" type="ftp_port" name="ftp_port" placeholder="21" value="{{$event->ftp_port}}">
+							<span id="helpBlock" class="help-block">Puerto</span>
+						</div>
+						<div class="col-xs-3">
+							<input class="form-control" type="ftp_user" name="ftp_user" value="{{$event->ftp_user}}">
+							<span id="helpBlock" class="help-block">Usuario</span>
+						</div>
+						<div class="col-xs-3">
+							<input class="form-control" type="ftp_pass" name="ftp_pass" value="{{$event->ftp_pass}}">
+							<span id="helpBlock" class="help-block">Contraseña</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
