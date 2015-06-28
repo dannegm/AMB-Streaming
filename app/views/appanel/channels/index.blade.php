@@ -41,16 +41,16 @@
 				<td>{{$c->name}}</td>
 				<td class="hidden-sm">{{$c->rtmp}}</td>
 				<td class="tools">
-					<a title="Ver" href="channels/{{$c->uid}}/view" class="btn-icon">
+					<a title="Ver" href="{{route('appanel.channels.view', array('uid' => $c->uid))}}" class="btn-icon">
 						<i class="icon-visibility"></i>
 					</a>
 					@if(Auth::user()->permissions()->channels->edit)
-					<a title="Editar" href="channels/{{$c->uid}}/edit" class="btn-icon">
+					<a title="Editar" href="{{route('appanel.channels.edit', array('uid' => $c->uid))}}" class="btn-icon">
 						<i class="icon-create"></i>
 					</a>
 					@endif
 					@if(Auth::user()->permissions()->channels->delete)
-					<a title="Eliminar" href="channels/{{$c->uid}}/delete" class="btn-icon red">
+					<a title="Eliminar" href="{{route('appanel.channels.delete', array('uid' => $c->uid))}}" class="btn-icon red">
 						<i class="icon-delete"></i>
 					</a>
 					@endif

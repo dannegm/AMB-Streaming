@@ -31,11 +31,11 @@
 				<td>
 					@if($c->marked != 0)
 					<a class="btn btn-link" href="{{route('appanel.events.unmark', array('uid' => $c->uid))}}" role="button">
-						<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-star" style="color: #FFB92C;" aria-hidden="true"></span>
 					</a>
 					@else
 					<a class="btn btn-link" href="{{route('appanel.events.mark', array('uid' => $c->uid))}}" role="button">
-						<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-star-empty" style="color: #888;" aria-hidden="true"></span>
 					</a>
 					@endif
 				</td>
@@ -57,16 +57,16 @@
 				</td>
 				<td class="hidden-sm">{{$c->start_date_human()}} - {{$c->ended_date_human()}}</td>
 				<td class="tools">
-					<a title="Ver" href="events/{{$c->uid}}/view" class="btn-icon">
+					<a title="Ver" href="{{route('appanel.events.view', array('uid' => $c->uid))}}" class="btn-icon">
 						<i class="icon-visibility"></i>
 					</a>
 					@if(Auth::user()->permissions()->events->edit)
-					<a title="Editar" href="events/{{$c->uid}}/edit" class="btn-icon">
+					<a title="Editar" href="{{route('appanel.events.edit', array('uid' => $c->uid))}}" class="btn-icon">
 						<i class="icon-create"></i>
 					</a>
 					@endif
 					@if(Auth::user()->permissions()->events->delete)
-					<a title="Eliminar" href="events/{{$c->uid}}/delete" class="btn-icon red">
+					<a title="Eliminar" href="{{route('appanel.events.delete', array('uid' => $c->uid))}}" class="btn-icon red">
 						<i class="icon-delete"></i>
 					</a>
 					@endif

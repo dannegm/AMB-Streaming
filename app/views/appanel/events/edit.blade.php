@@ -253,10 +253,10 @@
 				<div class="col-xs-6">
 					<label>Número secuencial de evento</label>
 					<div class="row">
-						<div class="col-xs-2" style="margin-top: 6px;">
+						<div class="col-xs-4 col-sm-3 col-md-2" style="margin-top: 6px;">
 							<input type="checkbox" id="is_w_number"{{$event->nrecord != 0 ? ' checked' : ''}} />
 						</div>
-						<div class="col-xs-3" id="nrecord_field"{{$event->nrecord != 0 ? '' : ' style="display:none;"'}}>
+						<div class="col-xs-6 col-sm-6 col-md-3" id="nrecord_field"{{$event->nrecord != 0 ? '' : ' style="display:none;"'}}>
 							<div class="input-group">
 								<div class="input-group-addon">#</div>
 								<input class="form-control" id="nrecord" type="nrecord" name="nrecord" placeholder="#secuencia" value="{{$event->nrecord}}">
