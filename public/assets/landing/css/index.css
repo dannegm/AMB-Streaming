@@ -77,6 +77,12 @@ footer.video .contain .online:before {
   margin-bottom: 2em;
   overflow: hidden;
 }
+
+.social table tr td{
+	display: inline-block;
+}
+
+
 article {
   overflow: hidden;
 }

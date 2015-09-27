@@ -37,6 +37,109 @@
 @stop
 
 @section('content')
+
+	@if($event->psswdreq)
+
+	<?php
+		$login = Cookie::get('L' . $event->uid);
+		if ($login != $event->password):
+	?>
+	<style>
+	#content {
+		-webkit-filter: blur(15px);
+		-moz-filter: blur(15px);
+		-o-filter: blur(15px);
+		-ms-filter: blur(15px);
+		filter: blur(15px);
+	}
+	#overlie {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 99;
+		background-color: rgba(0,0,0,.8);
+	}
+	#overlie article {
+		margin: 8em auto;
+		max-width: 720px;
+		width: auto;
+		color: #fff;
+		text-align: center;
+	}
+	#overlie article h2 {
+		font-weight: 300;
+		font-size: 2em;
+		margin: 1em;
+		text-align: center;
+	}
+	#overlie article form {
+		display: block;
+		text-align: center;
+		margin: .8em;
+	}
+	#overlie article input {
+		display: block;
+		width: 15em;
+		color: #000;
+		border-radius: 4px;
+		border: 0;
+		padding: .5em .8em;
+		font-size: 1em;
+		font-family: 'Roboto Slab', serif;
+		font-weight: 100;
+		background: rgba(255,255,255,.3);
+		margin: auto;
+		transition: all .3s;
+	}
+		#overlie article input:focus {
+			background: #fff;
+		}
+	#overlie article button {
+		margin-top: 1.5em;
+		background: #fff;
+		border: 0;
+		display: inline-block;
+		color: #222;
+		padding: .8em 1.4em;
+		text-transform: uppercase;
+		text-decoration: none;
+		font-size: .8em;
+		font-family: 'Roboto Slab', serif;
+		border-radius: 4px;
+		transition: all .3s;
+		cursor: pointer;
+	}
+		#overlie article button:hover {
+			background: #eee;
+			box-shadow: 0px 2px 15px 7px rgba(0,0,0,.2);
+		}
+		#overlie article button:active {
+			box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+		}
+	</style>
+	<div id="overlie">
+
+		<article>
+			<h2>Ingresa la contraseña para poder ver el evento</h2>
+			@if($errors->any())
+				<div>
+					<p style="color:red;text-align:center;">{{$errors->first()}}</p>
+				</div>
+			@endif
+			{{Form::model($event, array('route' => array('home.event.unlock', $event->uid), 'method' => 'PUT'))}}
+				<input type="password" name="password" placeholder="Contraseña" />
+				<button>Entrar</button>
+			{{Form::close()}}
+		</article>
+		
+	</div>
+	<?php endif; ?>
+	@endif
+
+
+	<div id="content">
 		<header>
 			<div class="center">
 				@if( $event->logo_uid != "avatarTV" )
@@ -69,10 +172,12 @@
 		</footer>
 
 		<div class="social">
+			@if($event->socialinfo != 0)
 			<div class="center">
 				<!-- facebook -->
 				<div class="fb-like" data-href="{{URL::asset('event/' . $event->uid  . '/')}}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 			</div>
+			@endif
 		</div>
 
 		<article>
@@ -82,6 +187,7 @@
 			<div class="sep"></div>
 		</article>
 		<div class="center">
+			@if($event->comments != 0)
 			<div id="disqus_thread"></div>
 			<script type="text/javascript">
 				var disqus_shortname = 'ambmultimedia';
@@ -92,6 +198,7 @@
 				})();
 			</script>
 			<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+			@endif
 		</div>
-
+	</div>
 @stop

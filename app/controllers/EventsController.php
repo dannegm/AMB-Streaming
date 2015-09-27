@@ -61,7 +61,6 @@ class EventsController extends \BaseController {
 			//validation videos
 			$rules = array(
 				'title' => 'required',
-				'description' => 'required',
 				'channel' => 'required',
 				'started_at' => 'required',
 				'ended_at' => 'required'
@@ -69,7 +68,6 @@ class EventsController extends \BaseController {
 
 			$messages = array(
 				'title.required' => 'El nombre es necesario',
-				'description.required' => 'Es necesrio colocar descripción',
 				'channel.required' => 'Es necesrio asignarle un canal',
 				'started_at.required' => 'Debes seleccionar fecha de inicio',
 				'ended_at.required' => 'Debes seleccionar fecha de cierre'
@@ -86,6 +84,11 @@ class EventsController extends \BaseController {
 			} else {
 				$event = new Evento;
 
+				function get_check_value ($input) {
+					$input = empty($input) ? 'off' : 'on';
+					return $input != 'on' ? 0 : 1;
+				}
+
 				$event->uid =  uniqid();
 				$event->timeid = time();
 
@@ -94,6 +97,12 @@ class EventsController extends \BaseController {
 				$event->title = Input::get('title');
 				$event->subtitle = Input::get('subtitle');
 				$event->description = Input::get('description');
+
+				$event->psswdreq = get_check_value( Input::get('psswdreq') );
+				$event->password = Input::get('password');
+				$event->comments = get_check_value( Input::get('comments') );
+				$event->socialinfo = get_check_value( Input::get('socialinfo') );
+				$event->visible = get_check_value( Input::get('visible') );
 
 				$event->locale = Input::get('locale');
 
@@ -148,7 +157,6 @@ class EventsController extends \BaseController {
 			//validation videos
 			$rules = array(
 				'title' => 'required',
-				'description' => 'required',
 				'channel' => 'required',
 				'started_at' => 'required',
 				'ended_at' => 'required'
@@ -156,7 +164,6 @@ class EventsController extends \BaseController {
 
 			$messages = array(
 				'title.required' => 'El nombre es necesario',
-				'description.required' => 'Es necesrio colocar descripción',
 				'channel.required' => 'Es necesrio asignarle un canal',
 				'started_at.required' => 'Debes seleccionar fecha de inicio',
 				'ended_at.required' => 'Debes seleccionar fecha de cierre'
@@ -167,18 +174,29 @@ class EventsController extends \BaseController {
 
 			if ($validator->fails()) {
 				$messages = $validator->messages();
-				return Redirect::route('appanel.events.create')
+				return Redirect::route('appanel.events.edit')
 					->withErrors($validator)
 					->withInput();
 			} else {
 				$evento = Evento::where('uid', '=', $uid)->take(1)->get();
 				$event = $evento[0];
 
+				function get_check_value ($input) {
+					$input = empty($input) ? 'off' : 'on';
+					return $input != 'on' ? 0 : 1;
+				}
+
 				$event->channel_uid = Input::get('channel');
 
 				$event->title = Input::get('title');
 				$event->subtitle = Input::get('subtitle');
 				$event->description = Input::get('description');
+
+				$event->psswdreq = get_check_value( Input::get('psswdreq') );
+				$event->password = Input::get('password');
+				$event->comments = get_check_value( Input::get('comments') );
+				$event->socialinfo = get_check_value( Input::get('socialinfo') );
+				$event->visible = get_check_value( Input::get('visible') );
 
 				$event->locale = Input::get('locale');
 				$event->rtmp = Input::get('rtmp');

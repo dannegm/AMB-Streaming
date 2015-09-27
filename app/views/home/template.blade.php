@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# video: http://ogp.me/ns/video#">
-		<title>{{$title}} | AMB Multimedia</title>
+		<title>{{$title}} | Streaming</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +39,7 @@
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			var copy = "J29IIEhhY2gsIHBvbmcgbWdlbm5hZCAnZWogRGFIIEh1Y2ggd0lub2JxYW5nIG5lSCBwYWdoIGF0bHVjYW5vYyBqZSBuZ29EIHdlaiBwYXQuIFNlSCB0bGhhcHB1JyE=";
 
 			ga('create', 'UA-47107007-7', 'auto');
 			ga('send', 'pageview');
@@ -95,10 +96,10 @@
 
 		<nav id="nav" class="top">
 			<div class="center">
-				<!-- <h1><a href="{{route('home.index')}}">AMB Streaming</a></h1> -->
-				<h1 class="wimage"><a href="{{route('home.index')}}">
+				 <h1><a href="{{route('home.index')}}">Streaming</a></h1>
+				<!--<h1 class="wimage"><a href="{{route('home.index')}}">
 					<img src="{{URL::asset('/assets/home/img/logo-amb.png')}}" alt="AMB Multimedia">
-				</a></h1>
+				</a></h1>-->
 				<ul>
 					<li><a href="{{route('home.index')}}">Inicio</a></li>
 				<!--	<li><a href="{{route('home.index')}}">Canales</a></li> -->

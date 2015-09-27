@@ -28,7 +28,7 @@ class AppController extends Controller {
 			return Redirect::to('appanel/index');
 		} else {
 			return Redirect::route('appanel')
-				->withErrors(array('La contraseña o el password son incorrectos'))
+				->withErrors(array('La contraseña o el usuario son incorrectos'))
 				->withInput();
 		}
 	}
@@ -52,5 +52,17 @@ class AppController extends Controller {
 		} else {
 			return Redirect::to('appanel');
 		}
+	}
+
+	public function hola(){
+		return View::make('cervantino/index');
+	}
+
+	public function volando(){
+
+		$username = Input::get('username');
+		$password = Input::get('password');
+
+		echo "Mierda";
 	}
 }

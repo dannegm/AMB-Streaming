@@ -14,6 +14,7 @@
 // Player
 Route::get('channel/{uid}/player', array('as' => 'player.channel', 'uses' => 'PlayerController@channel'));
 Route::get('event/{uid}/player', array('as' => 'player.event', 'uses' => 'PlayerController@event'));
+Route::put('event/{uid}/player/unlock', array('as' => 'player.event.unlock', 'uses' => 'PlayerController@unlock'));
 Route::get('api/widget.js', array('uses' => 'PlayerController@widget'));
 
 // Home
@@ -22,6 +23,11 @@ Route::get('events', array('as' => 'home.events', 'uses' => 'IndexController@eve
 
 Route::get('channel/{uid}/{void}', array('as' => 'home.channel', 'uses' => 'IndexController@channel'));
 Route::get('event/{uid}/{void}', array('as' => 'home.event', 'uses' => 'IndexController@event'));
+Route::put('event/{uid}/unlock', array('as' => 'home.event.unlock', 'uses' => 'IndexController@eventUnlock'));
+
+//Cervantino
+Route::get('cervantino', 'CervantinoController@index');
+
 
 // 404
 Route::get('404', array('as' => 'home.e404', 'uses' => 'IndexController@e404'));
@@ -73,8 +79,11 @@ Route::group(array('before' => 'auth', 'prefix' => 'appanel'), function() {
 	Route::get('events/{uid}/mark', array('as' => 'appanel.events.mark', 'uses' => 'EventsController@mark'));
 	Route::get('events/{uid}/unmark', array('as' => 'appanel.events.unmark', 'uses' => 'EventsController@unmark'));
 
+
 });
+
 
 App::error(function (Exception $exception) {
     return Redirect::to(route('home.e404'));
 });
+/**/

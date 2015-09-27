@@ -151,6 +151,14 @@
 	    		$('#nrecord_field').hide();
 	    	}
 		});
+
+	    $('#is_w_passr').on('switchChange.bootstrapSwitch', function(event, state) {
+	    	if (state) {
+	    		$('#password_field').show();
+	    	} else {
+	    		$('#password_field').hide();
+	    	}
+		});
 	});
 
 	// Datepicker
@@ -205,6 +213,49 @@
 				<label>Nombre del evento</label>
 				<input class="form-control input-lg" type="text" name="title" placeholder="Nombre del evento" value="{{$event->title}}">
 		</div>
+
+		<div class="form-group" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
+			<div class="row">
+				<div class="col-xs-3">
+					<label>Proteger con contraseña</label>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-4" style="margin-top: 6px;">
+							<input type="checkbox" id="is_w_passr" name="psswdreq"{{$event->psswdreq != 0 ? ' checked' : ''}} />
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6" id="password_field"{{$event->psswdreq != 0 ? '' : ' style="display:none;"'}}>
+							<div class="input-group">
+								<input class="form-control" id="password" type="text" name="password" placeholder="Contraseña" value="{{$event->password}}">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label>Mostrar comentarios</label>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 6px;">
+							<input type="checkbox" id="comments" name="comments"{{$event->comments != 0 ? ' checked' : ''}} />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label>Mostrar contenido social</label>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 6px;">
+							<input type="checkbox" id="socialinfo" name="socialinfo"{{$event->socialinfo != 0 ? ' checked' : ''}} />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label>Hacer visible</label>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 6px;">
+							<input type="checkbox" id="visible" name="visible"{{$event->visible != 0 ? ' checked' : ''}} />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<div class="row">
 				<div class="col-xs-6">

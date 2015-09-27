@@ -4,7 +4,7 @@ class IndexController extends BaseController {
 	public function index () {
 
 		$marks_events = Evento::where('marked', '=', 1)->orderBy('ended_at', 'desc')->take(3)->get();
-		$last_events = Evento::orderBy('ended_at', 'desc')->take(3)->get();
+		$last_events = Evento::where('visible', '=', 1)->orderBy('ended_at', 'desc')->take(3)->get();
 
 		$channels = Channel::where('visible', '=', 1)->orderBy('id', 'desc')->take(3)->get();
 
@@ -40,6 +40,36 @@ class IndexController extends BaseController {
 			);
 			return View::make('home/event', $data);
 		} else {
+			$data = array (
+				'title' => '404: Evento no encontrado'
+			);
+			return View::make('home/e404', $data);
+		}
+	}
+	public function eventUnlock ($uid) {
+		$events = Evento::where('uid', '=', $uid)->take(1);
+		$results = $events->count();
+
+		if ($results > 0) {
+			$_event = $events->get();
+			$event = $_event[0];
+
+			$passc = Input::get('password');
+			$passb = $event->password;
+
+			if ($passc == $passb) {
+				$dt = Carbon::parse( $event->ended_at );
+				$minsLeft = $dt->diffInMinutes( Carbon::now() );
+
+				Cookie::queue('L' . $uid, $passb, $minsLeft);
+				return Redirect::to(route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title))));
+			}
+				return Redirect::to(route('home.event', array('uid' => $event->uid, 'void' => urlencode($event->title))))
+					->withErrors(array('La contraseña es incorrecta'));
+		} else {
+			$data = array (
+				'title' => '404: Evento no encontrado'
+			);
 			return View::make('home/e404', $data);
 		}
 	}

@@ -32,7 +32,18 @@ class PlayerController extends BaseController {
 								'start' => $last_event->started_at
 							);
 
-							return View::make('player/index', $data);
+							if ($last_event->psswdreq != 0) {
+								$login = Cookie::get('L' . $last_event->uid);
+								if ($login != $last_event->password) {
+									$data['event'] = $event[0];
+									return View::make('player/password', $data);
+								} else {
+									return View::make('player/index', $data);
+								}
+							} else {
+								return View::make('player/index', $data);
+							}
+
 						} else {
 							$data = array (
 								'title' => $channel[0]->name,
@@ -113,7 +124,18 @@ class PlayerController extends BaseController {
 						'status' => $status,
 						'start' => $event[0]->started_at
 					);
-					return View::make('player/index', $data);
+
+					if ($event[0]->psswdreq != 0) {
+						$login = Cookie::get('L' . $event[0]->uid);
+						if ($login != $event[0]->password) {
+							$data['event'] = $event[0];
+							return View::make('player/password', $data);
+						} else {
+							return View::make('player/index', $data);
+						}
+					} else {
+						return View::make('player/index', $data);
+					}
 				} else {
 					$data = array (
 						'title' => $event[0]->title,
@@ -142,6 +164,36 @@ class PlayerController extends BaseController {
 
 	public function widget () {
 		return Response::view('player/widget_api_js')->header('Content-Type', 'text/javascript');
+	}
+
+	public function unlock ($uid) {
+		$events = Evento::where('uid', '=', $uid)->take(1);
+		$results = $events->count();
+
+		if ($results > 0) {
+			$_event = $events->get();
+			$event = $_event[0];
+
+			$passc = Input::get('password');
+			$passb = $event->password;
+
+			if ($passc == $passb) {
+				$dt = Carbon::parse( $event->ended_at );
+				$minsLeft = $dt->diffInMinutes( Carbon::now() );
+
+				Cookie::queue('L' . $uid, $passb, $minsLeft);
+				return Redirect::to(route('player.event', array('uid' => $uid)));
+			}
+				return Redirect::to(route('player.event', array('uid' => $uid)))
+					->withErrors(array('La contraseña es incorrecta'));
+		} else {
+			$data = array (
+				'title' => 'Error',
+				'cover' => '',
+				'error' => 'No pudimos encontrar este evento'
+			);
+			return View::make('player/error', $data);
+		}
 	}
 }
 

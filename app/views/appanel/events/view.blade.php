@@ -53,8 +53,18 @@
 				<code>Finaliza en <span id="clock"></span></code>
 			</p>
 			@endif
+
+			@if($event->psswdreq != 0)
+			<div class="form-group">
+				<div class="alert alert-warning" role="alert">La visualización de este evento está protegido por contraseña</div>
+			</div>
+			@endif
+
 			<blockquote>
 				<footer>Sku: {{$event->uid}}</footer>
+				@if($event->psswdreq != 0)
+				<footer>Password: <code>{{$event->password}}</code></footer>
+				@endif
 			</blockquote>
 		</div>
 	</div>

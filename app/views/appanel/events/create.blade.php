@@ -5,6 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="{{URL::asset('/panel/css/jquery.datetimepicker.css')}}">
 @stop
 @section('scripts')
+	<link rel="stylesheet" href="{{URL::asset('/panel/css/bootstrap-switch.min.css')}}">
+	<script src="{{URL::asset('/panel/js/bootstrap-switch.min.js')}}"></script>
+
 	<script src="{{URL::asset('/panel/js/fontsize.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/fullscreen.min.js')}}"></script>
 	<script src="{{URL::asset('/panel/js/redactor.min.js')}}"></script>
@@ -113,6 +116,7 @@
 	    }
 	};
 
+	$.fn.bootstrapSwitch.defaults.size = 'mini';
 	$(function () {
 	    // Logo
 	    $('#file_logo').on('change', function (e) {
@@ -134,6 +138,17 @@
 	        options_back.files = this.files;
 	        upload( options_back );
 	    });
+
+	    // Switches
+	    $('[type="checkbox"]').bootstrapSwitch();
+
+	    $('#is_w_passr').on('switchChange.bootstrapSwitch', function(event, state) {
+	    	if (state) {
+	    		$('#password_field').show();
+	    	} else {
+	    		$('#password_field').hide();
+	    	}
+		});
 	});
 
 	// Datepicker
@@ -180,6 +195,49 @@
 				<label>Nombre del evento</label>
 				<input class="form-control input-lg" type="text" name="title" placeholder="Nombre del evento" value="{{Input::old('title')}}">
 		</div>
+
+		<div class="form-group" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
+			<div class="row">
+				<div class="col-xs-3">
+					<label>Proteger con contraseña</label>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 6px;">
+							<input type="checkbox" id="is_w_passr" name="psswdreq" />
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6" id="password_field" style="display:none;">
+							<div class="input-group">
+								<input class="form-control" id="password" type="text" name="password" placeholder="Contraseña">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label>Mostrar comentarios</label>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 6px;">
+							<input type="checkbox" id="comments" name="comments" checked />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label>Mostrar contenido social</label>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 6px;">
+							<input type="checkbox" id="socialinfo" name="socialinfo" checked />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label>Hacer visible</label>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 6px;">
+							<input type="checkbox" id="visible" name="visible" checked />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group">
 				<label>Despripción pequeña</label>
 				<textarea id="subtitle" name="subtitle">{{Input::old('subtitle')}}</textarea>
